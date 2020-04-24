@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusZIL_Console", "MusZIL_Console\MusZIL_Console.csproj", "{A9841774-E98C-40B8-BF20-168BA51A72EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusZil_Core", "MusZil_Core\MusZil_Core.csproj", "{52DD8E1A-3B71-45BF-8262-21D0B12A160E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9841774-E98C-40B8-BF20-168BA51A72EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9841774-E98C-40B8-BF20-168BA51A72EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9841774-E98C-40B8-BF20-168BA51A72EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9841774-E98C-40B8-BF20-168BA51A72EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CFDD64CA-0051-40F6-AC65-2F44EC1F3788}
+	EndGlobalSection
+EndGlobal
