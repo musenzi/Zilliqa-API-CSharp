@@ -14,6 +14,11 @@ namespace MusZil_Core
 
         const string DEV_URL = "https://dev-api.zilliqa.com/";
 
+        /// <summary>
+        /// Calls a API method of the Zilliqa API
+        /// </summary>
+        /// <param name="req">MusRequest object to pass request</param>
+        /// <returns></returns>
         public async static Task<string> CallMethod(MusRequest req)
         {
             HttpClient httpClient = new HttpClient();
