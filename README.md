@@ -14,3 +14,7 @@ Sub Projects
 DEV_URL = https://dev-api.zilliqa.com/
 
 LIVE_URL= https://api.zilliqa.com/
+
+
+Join unstoppabledomains with using https://unstoppabledomains.com/r/5bcfd3e2fd174d1
+to get 10$ of storecredit and support this project
