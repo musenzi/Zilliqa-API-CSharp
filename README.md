@@ -2,6 +2,8 @@ Zilliqa API
 This is an attempt to use the Zilliqa JsonRPC 2.0 API with C# using simple HttpWebClient. 
 The project is made in .Net core.
 
+Dependencies: NewtonJsoft (https://www.newtonsoft.com/)
+
 Sub Projects
 
 - Implementation of Unstoppabledomains (https://docs.unstoppabledomains.com/)
