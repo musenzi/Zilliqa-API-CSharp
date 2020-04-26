@@ -15,7 +15,9 @@ Sub Projects
 
 - App using Blazor Technology to use smart contracts in Scilla
 
-- Probably a Console App for testing purposes...
+- Probably a Console App for testing purposes or actual tests who knows...
 
 
-Join Unstoppabledomains with using https://unstoppabledomains.com/r/5bcfd3e2fd174d1 to get 10$ of storecredit and support this project
+Join unstoppabledomains with using https://unstoppabledomains.com/r/5bcfd3e2fd174d1
+to get 10$ of storecredit and support this project
+
