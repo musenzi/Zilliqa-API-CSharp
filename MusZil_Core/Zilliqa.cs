@@ -11,17 +11,16 @@ namespace MusZil_Core
         private MusZil_APIClient _client;
         public Zilliqa()
         {
-            
+            _client = new MusZil_APIClient();
         }
         public Zilliqa(MusZil_APIClient client)
         {
             _client = client;
         }
 
-        public async Task<string> GetBalanceForAddress(string address)
+        public async Task<decimal> GetBalanceForAddress(string address)
         {
-            var req = new MusRequest("GetBalance",address);
-            return await _client.CallMethod(req);
+            return await _client.GetBalance(address);
         }
     }
 }
