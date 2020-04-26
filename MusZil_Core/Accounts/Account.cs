@@ -6,8 +6,6 @@ namespace MusZil_Core.Accounts
 {
     public class Account
     {
-        private string _accountAdress;
-
         /// <summary>
         /// Constructor for readonly account
         /// </summary>
@@ -17,7 +15,7 @@ namespace MusZil_Core.Accounts
             Address = Address;
             // TODO Lookup public key from address
         }
-        private string PrivateKey { get;  set; }
+        protected string PrivateKey { get;  set; }
         public string PublicKey { get; set; }
         public string Address { get; set; }
 
