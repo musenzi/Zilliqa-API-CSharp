@@ -16,19 +16,29 @@ namespace MusZil_Core.API
         /// <param name="resp"></param>
         /// <param name="unit">Default: Unit.ZIL. See Unit enum</param>
         /// <returns></returns>
-        public static decimal GetBalanceFromResult(ref MusResponse resp,Unit unit = Unit.ZIL)
+        public static (decimal,string) GetBalanceFromResult(ref MusResponse resp,Unit unit = Unit.ZIL)
         {
-            decimal balance = (decimal)((JObject)resp.Result)["balance"];
-            switch (unit)
+
+            decimal balance = resp.Error != null ? -1 : (decimal)((JObject)resp.Result)["balance"];
+            var msg = "";
+            if (!IsError(ref resp, out msg))
             {
-                case Unit.ZIL:
-                    balance /= 1000000000000;
-                    break;
-                case Unit.LI:
-                    balance /= 1000000;
-                    break;
+                switch (unit)
+                {
+                    case Unit.ZIL:
+                        balance /= 1000000000000;
+                        break;
+                    case Unit.LI:
+                        balance /= 1000000;
+                        break;
+                }
             }
-            return balance;
+            else
+            {
+                balance = -1;
+            }
+            
+            return (balance, msg);
         }
 
         #endregion
@@ -38,6 +48,17 @@ namespace MusZil_Core.API
         public static string GetContractCode(ref MusResponse resp)
         {
             return (string)((JObject)resp.Result)["code"];
+        }
+
+        #endregion
+
+        #region Helpers
+        
+        private static bool IsError(ref MusResponse resp,out string message)
+        {
+            var isError = resp.Error != null;
+            message =  isError ? ((JObject)resp.Error)["message"].ToString() : "Success";
+            return isError;
         }
 
         #endregion

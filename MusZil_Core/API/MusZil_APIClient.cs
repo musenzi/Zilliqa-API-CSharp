@@ -20,13 +20,15 @@ namespace MusZil_Core.API
 
         #region Accounts
 
-        public async Task<decimal> GetBalance(string address)
+        public async Task<(decimal,string)> GetBalance(string address)
         {
             var zil = new Zilliqa(this);
             var req = new MusRequest("GetBalance", address);
+            
             var result = await CallMethod(req);
+            
             var musres = JsonConvert.DeserializeObject<MusResponse>(result);
-
+            
             return ResponseHandler.GetBalanceFromResult(ref musres);
         }
 

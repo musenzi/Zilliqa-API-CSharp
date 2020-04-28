@@ -18,7 +18,7 @@ namespace MusZil_Core
             _client = client;
         }
 
-        public async Task<decimal> GetBalanceForAddress(string address)
+        public async Task<(decimal,string)> GetBalanceForAddress(string address)
         {
             return await _client.GetBalance(address);
         }

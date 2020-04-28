@@ -18,6 +18,8 @@ namespace MusZil_Core.API
 
             [JsonProperty("result")]
             public object Result { get; set; }
+            [JsonProperty("error")]
+            public object Error { get; set; }
 
     }
 }
