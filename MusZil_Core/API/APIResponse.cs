@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MusZil_Core.API
 {
-    public class MusResponse
+    public class APIResponse
     {
       
             [JsonProperty("id")]

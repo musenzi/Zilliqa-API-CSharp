@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MusZil_Core.Accounts;
+using MusZil_Core.Contracts;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -18,31 +20,83 @@ namespace MusZil_Core.API
 
         private readonly object requestLock = new object();
 
+        public string Url { get; private set; }
+        public MusZil_APIClient(string url = DEV_URL)
+        {
+            Url = url;
+        }
         #region Accounts
 
-        public async Task<(decimal,string)> GetBalance(string address)
+        public async Task<MusResult> GetBalance(string address)
         {
-            var zil = new Zilliqa(this);
             var req = new MusRequest("GetBalance", address);
-            
             var result = await CallMethod(req);
-            
-            var musres = JsonConvert.DeserializeObject<MusResponse>(result);
+            var musres = JsonConvert.DeserializeObject<APIResponse>(result);
             
             return ResponseHandler.GetBalanceFromResult(ref musres);
         }
-
+        public async Task<MusResult> GetBalance(Address address)
+        {
+            return await GetBalance(address.Raw);
+        }
+        public async Task<MusResult> GetBalance(Account acc)
+        {
+            return await GetBalance(acc.Address.Raw);
+        }
 
         #endregion
 
         #region Contracts
-        public async Task<string> GetContractCode(string address)
+        /// <summary>
+        /// Gets contractCode, overloaded with Address,Contract
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public async Task<MusResult> GetContractCode(string address)
         {
-            var zil = new Zilliqa(this);
             var req = new MusRequest("GetSmartContractCode", address.TrimStart('0').TrimStart('x'));
             var result = await CallMethod(req);
-            var musres = JsonConvert.DeserializeObject<MusResponse>(result);
+            var musres = JsonConvert.DeserializeObject<APIResponse>(result);
             return ResponseHandler.GetContractCode(ref musres);
+        }
+        public async Task<MusResult> GetContractCode(Address address)
+        {
+           return await GetContractCode(address.Raw);
+        }
+        public async Task<MusResult> GetContractCode(Contract c)
+        {
+            return await GetContractCode(c.Address.Raw);
+        }
+        /// <summary>
+        /// Gets Contract Balance, overloaded with: Address,Contract
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public async Task<MusResult> GetContractBalance(string address)
+        {
+            var req = new MusRequest("GetSmartContractState", address.TrimStart('0').TrimStart('x'));
+            var result = await CallMethod(req);
+            var musres = JsonConvert.DeserializeObject<APIResponse>(result);
+            return ResponseHandler.GetContractBalance(ref musres);
+        }
+        public async Task<MusResult> GetContractBalance(Address address)
+        {
+            return await GetContractBalance(address.Raw);
+        }
+        public async Task<MusResult> GetContractBalance(Contract con)
+        {
+            return await GetContractBalance(con.Address.Raw);
+        }
+
+        /// <summary>
+        /// Gets all contracts for one account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public async Task<MusResult> GetContracts(Account account)
+        {
+            throw new NotImplementedException("Coming...");
+            //return await GetContractCode(address.Raw);
         }
         #endregion
 
@@ -79,7 +133,7 @@ namespace MusZil_Core.API
 
             using (var httpClient = GetClient())
             {
-                var response = await httpClient.PostAsync(DEV_URL, data);
+                var response = await httpClient.PostAsync(Url, data);
                 result = response.Content.ReadAsStringAsync().Result;
             }
 

@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
