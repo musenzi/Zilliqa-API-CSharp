@@ -12,12 +12,17 @@ namespace MusZil_Core.Accounts
         /// <param name="address"></param>
         public Account(string address)
         {
-            Address = Address;
+            Address = address;
             // TODO Lookup public key from address
         }
         protected string PrivateKey { get;  set; }
         public string PublicKey { get; set; }
         public string Address { get; set; }
+
+        public void SetPrivateKey(string pk)
+        {
+            PrivateKey = pk;
+        }
 
     }
 }
