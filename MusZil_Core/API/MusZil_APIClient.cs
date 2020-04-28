@@ -33,6 +33,17 @@ namespace MusZil_Core.API
 
         #endregion
 
+        #region Contracts
+        public async Task<string> GetContractCode(string address)
+        {
+            var zil = new Zilliqa(this);
+            var req = new MusRequest("GetSmartContractCode", address.TrimStart('0').TrimStart('x'));
+            var result = await CallMethod(req);
+            var musres = JsonConvert.DeserializeObject<MusResponse>(result);
+            return ResponseHandler.GetContractCode(ref musres);
+        }
+        #endregion
+
         #region Helpers
 
         private HttpClient GetClient()

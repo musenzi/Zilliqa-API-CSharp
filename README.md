@@ -1,4 +1,4 @@
-Zilliqa API
+Zilliqa SDK C#
 This is an attempt to use the Zilliqa JsonRPC 2.0 API with C# using simple HttpWebClient. 
 
 The project is made in .Net core.
