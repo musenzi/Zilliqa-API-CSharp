@@ -8,6 +8,7 @@ namespace MusZil_Core.API
 {
     public class ResponseHandler 
     {
+        #region Acoounts
 
         /// <summary>
         /// Gets Balance from result object 
@@ -29,5 +30,17 @@ namespace MusZil_Core.API
             }
             return balance;
         }
+
+        #endregion
+
+        #region Contracts 
+
+        public static string GetContractCode(ref MusResponse resp)
+        {
+            return (string)((JObject)resp.Result)["code"];
+        }
+
+        #endregion
+
     }
 }
