@@ -11,6 +11,17 @@ namespace MusZil_Core.API
 {
     public class ResponseHandler 
     {
+        public static MusResult GetResult(ref APIResponse response, Unit unit = Unit.ZIL)
+        {
+            var msg = "";
+            var resStr = "";
+            if (!CheckError(ref response, out msg))
+            {
+                resStr = (string)((JObject)response.Result)["result"];
+            }
+            var result = new MusResult(resStr, msg);
+            return result;
+        }
         #region Accounts
 
         /// <summary>
@@ -64,7 +75,7 @@ namespace MusZil_Core.API
         private static bool CheckError(ref APIResponse resp,out string message)
         {
             var isError = resp.Error != null;
-            message =  isError ? ((JObject)resp.Error)["message"].ToString() : "Success";
+            message =  isError ? ((JObject)resp.Error)["message"].ToString() : "API Call Success";
             return isError;
         }
 
