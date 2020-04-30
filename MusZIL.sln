@@ -5,9 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusZil_Core", "MusZil_Core\MusZil_Core.csproj", "{52DD8E1A-3B71-45BF-8262-21D0B12A160E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusZIL_Console", "..\Mus_ZIL_DevOps\MusZIL_Console\MusZIL_Console.csproj", "{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestMusZIL", "NUnitTestMusZIL\NUnitTestMusZIL.csproj", "{B4451AB1-0D34-446A-A552-ED87D73E04FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestMusZIL", "NUnitTestMusZIL\NUnitTestMusZIL.csproj", "{B4451AB1-0D34-446A-A552-ED87D73E04FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,7 +18,6 @@ Global
 		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4451AB1-0D34-446A-A552-ED87D73E04FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
