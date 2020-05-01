@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using MusZil_Core.Blockchain;
 
 namespace MusZil_Core.API
 {
@@ -25,6 +26,7 @@ namespace MusZil_Core.API
         {
             Url = url;
         }
+
         #region Accounts
 
         public async Task<MusResult> GetBalance(string address)
@@ -208,7 +210,7 @@ namespace MusZil_Core.API
 		{
 			return await GetContractCode(address.Raw);
 		}
-		public async Task<MusResult> GetContractCode(Contract c)
+		public async Task<MusResult> GetContractCode(SmartContract c)
 		{
 			return await GetContractCode(c.Address.Raw);
 		}
@@ -227,7 +229,7 @@ namespace MusZil_Core.API
 		{
 			return await GetContractBalance(address.Raw);
 		}
-		public async Task<MusResult> GetContractBalance(Contract con)
+		public async Task<MusResult> GetContractBalance(SmartContract con)
 		{
 			return await GetContractBalance(con.Address.Raw);
 		}
@@ -263,9 +265,16 @@ namespace MusZil_Core.API
 		}
 
 
-		public async Task<MusResult> GetSmartContractState(String address)
+		public async Task<MusResult> GetSmartContractState(string address)
 		{
 			var req = RequestFactory.New("GetSmartContractState", address);
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+
+		}
+		public async Task<MusResult> GetSmartContractSubState(object[] parameters)
+		{
+			var req = RequestFactory.New("GetSmartContractSubState", parameters);
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 

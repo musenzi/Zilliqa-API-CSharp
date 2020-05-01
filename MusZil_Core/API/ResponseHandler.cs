@@ -14,14 +14,19 @@ namespace MusZil_Core.API
         public static MusResult GetResult(ref APIResponse response, Unit unit = Unit.ZIL)
         {
             var msg = "";
-            var resStr = "";
-            if (!CheckError(ref response, out msg))
-            {
-                resStr = (string)((JObject)response.Result)["result"];
-            }
-            var result = new MusResult(resStr, msg);
-            return result;
+            object res = null;
+            CheckError(ref response, out msg);
+            return new MusResult(response.Result, msg);
         }
+
+        public static MusResult GetSubFromResult(ref APIResponse resp, string sub = "")
+        {
+            var msg = "";
+            var o = ((JObject)resp.Result)[sub];
+            CheckError(ref resp, out msg);
+            return new MusResult(o, msg);
+        }
+
         #region Accounts
 
         /// <summary>
@@ -32,7 +37,7 @@ namespace MusZil_Core.API
         /// <returns></returns>
         public static MusResult GetBalanceFromResult(ref APIResponse resp, Unit unit = Unit.ZIL)
         {
-            float balance = resp.Error != null ? -1 : (float)((JObject)resp.Result)["balance"];
+            decimal balance = resp.Error != null ? -1 : (decimal)((JObject)resp.Result)["balance"];
             var bal = new Balance(balance);
             bal.SwitchUnit(unit);
             var msg = "";

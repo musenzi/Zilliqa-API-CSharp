@@ -14,6 +14,13 @@ namespace MusZil_Core
             Parameters = new[] { param };
             Jsonrpc = "2.0";
         }
+        public MusRequest(string method, object[] parameters)
+        {
+            Id = "1";
+            Method = method;
+            Parameters = parameters;
+            Jsonrpc = "2.0";
+        }
 
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -22,7 +29,7 @@ namespace MusZil_Core
         [JsonProperty("method")]
         public string Method { get; set; }
         [JsonProperty("params")]
-        public string[] Parameters { get; set; }
+        public object[] Parameters { get; set; }
 
         /// <summary>
         /// Returns request as Json (using NewtonJsoft)
