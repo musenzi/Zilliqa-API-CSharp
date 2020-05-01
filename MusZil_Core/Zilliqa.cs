@@ -8,6 +8,7 @@ using MusZil_Core.Contracts;
 using MusZil_Core.Blockchain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace MusZil_Core
 {
@@ -201,8 +202,8 @@ namespace MusZil_Core
 		/// <returns></returns>
 		public async Task<string> GetSmartContractCode(string address)
 		{
-			var res = await _client.GetBlockchainInfo();
-			return (string)res.Result;
+			var res = await _client.GetSmartContractCode(address);
+			return res.Result.ToString();
 		}
 		public async Task<string> GetSmartContractCode(Address address)
 		{
@@ -239,15 +240,42 @@ namespace MusZil_Core
 		/// <returns></returns>
 		public async Task<List<SmartContract>> GetSmartContracts(string address)
 		{
-			var res = await _client.GetSmartContracts(address); 
-			var musres = JsonConvert.DeserializeObject<List<SmartContract>>(res.Result.ToString());
-			return musres;
+			var res = await _client.GetSmartContracts(address);
+			if (res.Result == null)
+			{
+				throw new ArgumentException(res.Message);
+			}
+			var l = new List<SmartContract>();
+			foreach (var r in (JArray)res.Result)
+			{
+				l.Add(r.ToObject<SmartContract>());
+			}
+			return l;
 		}
-
+		public async Task<List<SmartContract>> GetSmartContracts(Address address)
+		{
+			address.SwitchEncoding();
+			return await GetSmartContracts(address.Raw);
+		}
+		public async Task<List<SmartContract>> GetSmartContracts(Account account)
+		{
+			account.Address.SwitchEncoding();
+			return await GetSmartContracts(account.Address.Raw);
+		}
+		/// <summary>
+		/// Gets the contract address from tnx Id
+		/// </summary>
+		/// <param name="address"></param>
+		/// <returns></returns>
 		public async Task<string> GetContractAddressFromTransactionID(string address)
 		{
 			var res = await _client.GetContractAddressFromTransactionID(address);
 			return (string)res.Result;
+		}
+		public async Task<string> GetContractAddressFromTransactionID(Address address)
+		{
+			address.SwitchEncoding() ;
+			return await GetContractAddressFromTransactionID(address.Raw);
 		}
 
 
@@ -255,6 +283,7 @@ namespace MusZil_Core
 		{
 			var res = await _client.GetSmartContractState(address);
 			var it = ((JToken)res.Result).ToObject<StateItem>();
+			it.AllValues = res.Result;
 			return it;
 		}
 		public async Task<string> GetSmartContractSubState(object[] parameters)
@@ -262,11 +291,10 @@ namespace MusZil_Core
 			var res = await _client.GetSmartContractSubState(parameters);
 			return (string)res.Result;
 		}
-		public async Task<SmartContractInit> GetSmartContractInit(string address)
+		public async Task<string> GetSmartContractInit(string address)
 		{
-			var res = await _client.GetSmartContractState(address);
-			var init = JsonConvert.DeserializeObject<SmartContractInit>((string)res.Result);
-			return init;
+			var res = await _client.GetSmartContractInit(address);
+			return res.Result.ToString();
 		}
 		#endregion
 		/*
@@ -323,30 +351,14 @@ namespace MusZil_Core
 
 		#endregion*/
 
-		#region private methods
-		public void AddAccount()
-        {
-            throw new NotImplementedException();
-        }
-        private MusResult GetBalanceForAddress(string address)
-        {
-            return GetBalanceForAddressAsync(address).Result;
-        }
-        public decimal GetAccountBalance(string address)
-        {
-            throw new NotImplementedException();
-        }
+		
 
-        public decimal GetAccountBalance(Account acc)
-        {
-            throw new NotImplementedException();
-        }
-        public void RemoveAccount()
-        {
-            throw new NotImplementedException();
-        }
+		#region Custom Functions not part of API
+		public static Account MakeAccount(string address)
+		{
+			return AccountFactory.New(address);
+		}
         #endregion
-
 
     }
 }

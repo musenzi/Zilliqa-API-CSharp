@@ -1,6 +1,7 @@
 ﻿using MusZil_Core;
 using MusZil_Core.API;
 using MusZil_Core.Contracts;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,13 @@ namespace NUnitTestMusZIL.IntegrationTests
             Assert.AreNotEqual(null, res);
         }
         [Test]
+        public async Task GetStateGivesAllValues()
+        {
+            var res = await _zil.GetSmartContractState(_address.Raw);
+            var valuesJson = ((JToken)res.AllValues).ToString();
+            Assert.AreNotEqual("", valuesJson);
+        }
+        [Test]
         public async Task GetSubSateNotEmpty()
         {
             object[] parameters = new object[] { _address.Raw,"admins",new object[0] };
@@ -56,7 +64,9 @@ namespace NUnitTestMusZIL.IntegrationTests
         [Test]
         public async Task GetContractsNotEmpty()
         {
-            var res = await _zil.GetSmartContracts(_address.Raw);
+            var account = Zilliqa.MakeAccount("zil14kekz6ggqtazcj6ye93ftevumy75nnap5pw4ff");
+
+            var res = await _zil.GetSmartContracts(account);
             Assert.AreNotEqual(null, res);
         }
         [Test]
