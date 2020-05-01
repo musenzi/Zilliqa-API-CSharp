@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MusZil_Core.Blockchain
 {
-    public class Blockchain
+    public class BlockchainInfo
     {
         public string CurrentDSEpoch { get; set; }
         public string CurrentMiniEpoch { get; set; }

@@ -5,15 +5,15 @@ using System.Text;
 
 namespace MusZil_Core.Contracts
 {
-    public class Contract
+    public class SmartContract
     {
         public Address Address;
-        public Contract(string address = "", string code = "")
+        public SmartContract(string address = "", string code = "")
         {
             Address = new Address(address);
             Code = code;
         }
-        public Contract(Address address, string code = "")
+        public SmartContract(Address address, string code = "")
         {
             Address = address;
             Code = code;
@@ -39,6 +39,19 @@ namespace MusZil_Core.Contracts
         public string Value { get; set; }
         [JsonProperty("vname")]
         public string Name { get; set; }
+    }
+
+    public class SmartContractInit
+    {
+        [JsonProperty("_scilla_version")]
+        public string ScillaVersion { get; set; }
+        [JsonProperty("owner")]
+        public string Owner { get; set; }
+        [JsonProperty("_creation_block")]
+        public string CreationBlock { get; set; }
+
+        [JsonProperty("_this_address")]
+        public string Address { get; set; }
     }
 }
 
