@@ -8,12 +8,12 @@ namespace NUnitTestMusZIL.Contracts
 {
     public class ContractTests
     {
-        public Contract TestContract { get; set; }
+        public SmartContract TestContract { get; set; }
         [SetUp]
         public void Setup()
         {
             //make an account ?? use a factory maybe
-            TestContract = new Contract();
+            TestContract = new SmartContract();
         }
 
         [Test]
