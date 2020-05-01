@@ -13,14 +13,17 @@ namespace MusZil_Core.Accounts
         /// Constructor for readonly account
         /// </summary>
         /// <param name="address"></param>
-        public Account(string address)
+        public Account(string address , decimal balance = 0)
         {
             Address = new Address(address);
+            Balance = new Balance(0);
         }
-        public Account(Address address)
+        public Account(Address address, decimal balance = 0)
         {
             Address = address;
+            Balance = new Balance(balance);
         }
+        public Balance Balance { get; set; }
         protected string PrivateKey { get;  set; }
         public string PublicKey { get; set; }
         

@@ -15,10 +15,8 @@ namespace MusZil_Core
             BECH32,
             BASE16
         }
-        //TODO implement converter
 
         private string _address;
-        private Balance _balance;
         private const string _b32encoding = "bech32";
         private const string _b16encoding = "base16";
         public Bech32 Bech32 { get; set; } 
@@ -51,12 +49,6 @@ namespace MusZil_Core
         public Address(string address = "")
         {
             Raw = address;
-            _balance = new Balance();
-        }
-        public Address()
-        {
-            
-            _balance = new Balance();
         }
         public override string ToString()
         {
@@ -81,10 +73,10 @@ namespace MusZil_Core
             switch (_curr)
             {
                 case AddressEncoding.BASE16:
-                    Bech32ToBase16Address();
+                    Base16ToBech32Address();
                     break;
                 case AddressEncoding.BECH32:
-                    Base16ToBech32Address();
+                    Bech32ToBase16Address();
                     break;
             }
         }
