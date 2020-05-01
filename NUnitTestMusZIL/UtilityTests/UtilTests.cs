@@ -27,7 +27,7 @@ namespace NUnitTestMusZIL.UtilityTests
         public void AddressEncode2()
         {
             var address = new Address("0x551AA8653Aa7b75D9fDD75f5D4D41d0647F734E8");
-            address.ToBech32Address();
+            address.Base16ToBech32Address();
             Assert.AreEqual("zil125d2sef657m4m87awh6af4qaqerlwd8gv6fglj", address.Bech32.ToString());
         }
 
