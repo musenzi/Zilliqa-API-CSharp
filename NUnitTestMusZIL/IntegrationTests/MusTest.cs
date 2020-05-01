@@ -15,6 +15,7 @@ namespace NUnitTestMusZIL.IntegrationTests
         protected MusZil_APIClient _client;
         protected Address _address;
         protected Account _account;
+        protected Zilliqa _zil;
 
         const string JSONRPC = "2.0";
         const string DEV_URL = "https://dev-api.zilliqa.com/";
@@ -24,10 +25,11 @@ namespace NUnitTestMusZIL.IntegrationTests
         {
             _client = new MusZil_APIClient(DEV_URL);
             _repo = new AccountsRepository();
-            _address = new Address("0x4C352ba2Bd33245CDA180699e6B5c6334AB5dC26");
+            _address = new Address("zil1fs6jhg4axvj9ekscq6v7ddwxxd9tthpxl7820q");
             _account = AccountFactory.New(_address);
             _repo.Add(_account);
             _repo.Add(AccountFactory.New("zil1fs6jhg4axvj9ekscq6v7ddwxxd9tthpxl7820q"));
+            _zil = new Zilliqa();
         }
     }
 }

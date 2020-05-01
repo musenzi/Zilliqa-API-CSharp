@@ -13,7 +13,6 @@ namespace NUnitTestMusZIL.IntegrationTests
     public class ContractTests : MusTest
     {
         private SmartContract _contract;
-        private Zilliqa _zil;
         [SetUp]
         public override void SetUp()
         {
@@ -21,7 +20,6 @@ namespace NUnitTestMusZIL.IntegrationTests
             _address.Raw = "0x96b324cbdacbf7087f1fb1cdbbe6601a6e8c04c5";
             _contract = new SmartContract(_address);
             _address.SwitchEncoding();
-            _zil = new Zilliqa();
         }
         [Test]
         public async Task GetBalance()

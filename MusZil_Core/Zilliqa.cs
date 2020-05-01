@@ -9,6 +9,7 @@ using MusZil_Core.Blockchain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using MusZil_Core.Transactions;
 
 namespace MusZil_Core
 {
@@ -22,10 +23,11 @@ namespace MusZil_Core
             _client = new MusZil_APIClient(APIURL);
         }
         
-        private async Task<MusResult> GetBalanceForAddressAsync(string address)
+        private async Task<decimal> GetBalanceForAddressAsync(string address)
         {
             var acc = new Account(address);
-            return await _client.GetBalance(address);
+			var res = await _client.GetBalance(address);
+			return  (decimal)res.Result;
         }
 
 		#region Accounts
@@ -297,61 +299,69 @@ namespace MusZil_Core
 			return res.Result.ToString();
 		}
 		#endregion
-		/*
+
 		#region Transactions
-		public async Task<MusResult> CreateTransaction(string payload)
+		public async Task<Info> CreateTransaction(string payload)
 		{
-			var req = RequestFactory.New("CreateTransaction", payload);
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var res = await _client.CreateTransaction(payload);
+			return ((JToken)res.Result).ToObject<Info>();
 		}
 
-		public async Task<MusResult> GetMinimumGasPrice()
+		public async Task<int> GetMinimumGasPrice()
 		{
-			var req = RequestFactory.New("GetMinimumGasPrice", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var res = await _client.GetMinimumGasPrice();
+			return int.Parse((string)res.Result);
 		}
 
 
-		public async Task<MusResult> GetTransaction(string hash)
+		public async Task<Transaction> GetTransaction(string hash)
 		{
-			var req = RequestFactory.New("GetTransaction", hash);
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var res = await _client.GetTransaction(hash);
+			return ((JToken)res.Result).ToObject<Transaction>();
 		}
 
-		public async Task<MusResult> GetRecentTransactions()
+		public async Task<List<string>> GetRecentTransactions()
 		{
-			var req = RequestFactory.New("GetRecentTransactions", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var res = await _client.GetRecentTransactions();
+			return ((JToken)res.Result).ToObject<List<string>>();
 		}
 
-		public async Task<MusResult> GetTransactionsForTxBlock(string blockNum)
+		public async Task<List<string[]>> GetTransactionsForTxBlock(int blockNum)
 		{
-			var req = RequestFactory.New("GetTransactionsForTxBlock", blockNum);
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var res = await _client.GetTransactionsForTxBlock(blockNum.ToString());
+			return ((JToken)res.Result).ToObject<List<string[]>>();
 		}
 
-		public async Task<MusResult> GetNumTxnsTxEpoch()
+		public async Task<int> GetNumTxnsTxEpoch()
 		{
-			var req = RequestFactory.New("GetNumTxnsTxEpoch");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var res = await _client.GetNumTxnsTxEpoch();
+			return ((JToken)res.Result).ToObject<int>();
 		}
 
-		public async Task<MusResult> GetNumTxnsDSEpoch()
+		public async Task<int> GetNumTxnsDSEpoch()
 		{
-			var req = RequestFactory.New("GetNumTxnsDSEpoch");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var res = await _client.GetNumTxnsDSEpoch();
+			return ((JToken)res.Result).ToObject<int>();
+		}
+		public async Task<PendingTransaction> GetPendingTxn(string hash)
+		{
+			var res = await _client.GetPendingTxn(hash);
+			return ((JToken)res.Result).ToObject<PendingTransactionInfo>();
+		}
+		public async Task<List<PendingTransaction>> GetPendingTxns()
+		{
+			var res = await _client.GetPendingTxns();
+			return ((JToken)res.Result).ToObject<List<PendingTransaction>>();
+		}
+		public async Task<List<Transaction>> GetTxnBodiesForTxBlock(int blockNum)
+		{
+			var res = await _client.GetTxnBodiesForTxBlock(blockNum.ToString());
+			return ((JToken)res.Result).ToObject<List<Transaction>>();
 		}
 
-		#endregion*/
+		#endregion
 
-		
+
 
 		#region Custom Functions not part of API
 		public static Account MakeAccount(string address)
