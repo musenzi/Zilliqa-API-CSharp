@@ -14,7 +14,6 @@ namespace MusZil_Core.API
         public object Result { get; set; }
         public string Message { get; set; }
         public bool Error { get; set; }
-        public string ErrorMessage { get; set; }
 
     }
 }

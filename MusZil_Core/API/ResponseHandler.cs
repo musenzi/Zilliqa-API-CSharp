@@ -15,16 +15,16 @@ namespace MusZil_Core.API
         {
             var msg = "";
             object res = null;
-            CheckError(ref response, out msg);
-            return new MusResult(response.Result, msg);
+            var error = CheckError(ref response, out msg);
+            return new MusResult(response.Result, msg) { Error = error };
         }
 
         public static MusResult GetSubFromResult(ref APIResponse resp, string sub = "")
         {
             var msg = "";
             var o = ((JObject)resp.Result)[sub];
-            CheckError(ref resp, out msg);
-            return new MusResult(o, msg);
+            var error = CheckError(ref resp, out msg);
+            return new MusResult(o, msg) { Error = error};
         }
 
         #region Accounts
