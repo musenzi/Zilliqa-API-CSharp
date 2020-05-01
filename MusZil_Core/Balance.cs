@@ -2,61 +2,59 @@
 
 namespace MusZil_Core
 {
-    public partial class Address
+    public class Balance
     {
-        internal class Balance
+        private decimal _balance;
+        private Unit _u;
+        public Balance(decimal bal = 0)
         {
-            private float _balance;
-            private Unit _u;
-            public Balance(float bal = 0)
+            _balance = bal;
+            _u = Unit.QA;
+        }
+        public decimal GetBalance()
+        {
+            return _balance;
+        }
+        public void SwitchUnit(Unit u)
+        {
+            if (_u == Unit.QA)
             {
-                _balance = bal;
-                _u = Unit.QA;
+                switch (u)
+                {
+                    case Unit.ZIL:
+                        _balance /= 1000000000000;
+                        break;
+                    case Unit.LI:
+                        _balance /= 1000000;
+                        break;
+                }
             }
-            public float GetBalance()
+            if (_u == Unit.LI)
             {
-                return _balance;
+                switch (u)
+                {
+                    case Unit.ZIL:
+                        _balance /= 1000000;
+                        break;
+                    case Unit.QA:
+                        _balance *= 1000000;
+                        break;
+                }
             }
-            public void SwitchUnit(Unit u)
+            if (_u == Unit.ZIL)
             {
-                if (_u == Unit.QA)
+                switch (u)
                 {
-                    switch (u)
-                    {
-                        case Unit.ZIL:
-                            _balance /= 1000000000000;
-                            break;
-                        case Unit.LI:
-                            _balance /= 1000000;
-                            break;
-                    }
+                    case Unit.LI:
+                        _balance *= 1000000;
+                        break;
+                    case Unit.QA:
+                        _balance *= 1000000000000;
+                        break;
                 }
-                if (_u == Unit.LI)
-                {
-                    switch (u)
-                    {
-                        case Unit.ZIL:
-                            _balance *= 0.000001F;
-                            break;
-                        case Unit.QA:
-                            _balance *= 1000000;
-                            break;
-                    }
-                }
-                if (_u == Unit.ZIL)
-                {
-                    switch (u)
-                    {
-                        case Unit.LI:
-                            _balance *= 1000000;
-                            break;
-                        case Unit.QA:
-                            _balance *= 1000000000000;
-                            break;
-                    }
-                }
+            }
 
-            }
         }
     }
 }
+
