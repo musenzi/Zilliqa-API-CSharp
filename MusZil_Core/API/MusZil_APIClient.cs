@@ -296,31 +296,45 @@ namespace MusZil_Core.API
 			return ResponseHandler.GetResult(ref result);
 		}
 
-		public async Task<MusResult> GetMinimumGasPrice()
-		{
-			var req = RequestFactory.New("GetMinimumGasPrice", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-
 		public async Task<MusResult> GetTransaction(string hash)
 		{
 			var req = RequestFactory.New("GetTransaction", hash);
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
-
+		public async Task<MusResult> GetPendingTxn(string hash)
+		{
+			var req = RequestFactory.New("GetPendingTxn");
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
+		public async Task<MusResult> GetPendingTxns()
+		{
+			var req = RequestFactory.New("GetPendingTxns");
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
 		public async Task<MusResult> GetRecentTransactions()
 		{
 			var req = RequestFactory.New("GetRecentTransactions", "");
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
-
 		public async Task<MusResult> GetTransactionsForTxBlock(string blockNum)
 		{
 			var req = RequestFactory.New("GetTransactionsForTxBlock", blockNum);
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
+		public async Task<MusResult> GetTxnBodiesForTxBlock(string blockNum)
+		{
+			var req = RequestFactory.New("GetTxnBodiesForTxBlock",blockNum);
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
+		public async Task<MusResult> GetNumTxnsDSEpoch()
+		{
+			var req = RequestFactory.New("GetNumTxnsDSEpoch");
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
@@ -332,9 +346,9 @@ namespace MusZil_Core.API
 			return ResponseHandler.GetResult(ref result);
 		}
 
-		public async Task<MusResult> GetNumTxnsDSEpoch()
+		public async Task<MusResult> GetMinimumGasPrice()
 		{
-			var req = RequestFactory.New("GetNumTxnsDSEpoch");
+			var req = RequestFactory.New("GetMinimumGasPrice", "");
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}

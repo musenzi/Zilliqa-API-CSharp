@@ -1,4 +1,5 @@
 ﻿using MusZil_Core.Accounts;
+using MusZil_Core.Contracts;
 using MusZil_Core.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,7 +12,7 @@ namespace MusZil_Core.API
 {
     public class ResponseHandler 
     {
-        public static MusResult GetResult(ref APIResponse response, Unit unit = Unit.ZIL)
+        public static MusResult GetResult(ref APIResponse response)
         {
             var msg = "";
             object res = null;
@@ -72,7 +73,6 @@ namespace MusZil_Core.API
             var result = new MusResult(balance, "GetContractCode Success");
             return result;
         }
-
         #endregion
 
         #region Helpers
