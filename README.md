@@ -1,7 +1,10 @@
-Zilliqa SDK C#
-This is an attempt to use the Zilliqa JsonRPC 2.0 API with C# using simple HttpWebClient. 
+Zilliqa SDK C# 
 
-The project is made in .Net core.
+Mus_ZilliqaCSharp v1.0.0
+
+This is a class library that communicates with the Zilliqa JsonRPC 2.0 API with C# using simple HttpWebClient.
+
+The project is made in .Net core 3.1
 
 DEV_URL = https://dev-api.zilliqa.com/
 
@@ -9,15 +12,13 @@ LIVE_URL= https://api.zilliqa.com/
 
 Dependencies: NewtonJsoft (https://www.newtonsoft.com/)
 
-Sub Projects
+- All API calls have been implemented. 
+- At the moment Zilliqa object uses MusZil_APIClient directly I'll change that to IZilliqaAPIClient for DI 
+- Create tranasction should be finetuned to be able to sign directly in class lib
+- Started working on genrating addresses and encrypting decrypting
+- Stared working on import export of private keys 
 
-- Implementation of Unstoppabledomains (https://docs.unstoppabledomains.com/)
+To use this project clone it directly to Visual Studio or use nuget package manage and search for "Mus_ZilliqaCSharp".
 
-- App using Blazor Technology to use smart contracts in Scilla
-
-- Probably a Console App for testing purposes or actual tests who knows...
-
-
-Join unstoppabledomains with using https://unstoppabledomains.com/r/5bcfd3e2fd174d1
-to get 10$ of storecredit and support this project
+Direct download from nuget.org: https://www.nuget.org/packages/Mus_ZilliqaCSharp/
 
