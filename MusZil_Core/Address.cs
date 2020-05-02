@@ -8,17 +8,15 @@ using System.Text;
 namespace MusZil_Core
 {
     
-    public partial class Address
+    public class Address
     {
-        protected enum Encoding
+        public enum AddressEncoding
         {
             BECH32,
             BASE16
         }
-        //TODO implement converter
 
         private string _address;
-        private Balance _balance;
         private const string _b32encoding = "bech32";
         private const string _b16encoding = "base16";
         public Bech32 Bech32 { get; set; } 
@@ -32,39 +30,55 @@ namespace MusZil_Core
                 if (_address.StartsWith("0x"))
                 {
                     Base16 = _address;
-                    _curr = Encoding.BASE16;
+                    _curr = AddressEncoding.BASE16;
                     _address = value.TrimStart('0').TrimStart('x');
                 }
                 else if (_address.StartsWith("zil"))
                 {
 
-                    _curr = Encoding.BECH32;
+                    _curr = AddressEncoding.BECH32;
                     Bech32 = new Bech32(value,null,"zil");
                     _address = value;
                 }
             }
         }
-        private Encoding _curr;
+        private AddressEncoding _curr;
         public string Current_Encoding { get => _curr.ToString(); }
 
 
         public Address(string address = "")
         {
             Raw = address;
-            _balance = new Balance();
-        }
-        public Address()
-        {
-            
-            _balance = new Balance();
         }
         public override string ToString()
         {
             return Raw;
         }
-        public void ToBech32Address()
+        public void Base16ToBech32Address()
         {
             Raw = MusBech32.Base16ToBech32Address(Raw);
+        }
+        public void Bech32ToBase16Address()
+        {
+            Raw = MusBech32.Bech32ToBase16Address(Raw);
+        }
+        /// <summary>
+        /// Changes Current encoding of address (default base16)
+        /// </summary>
+        /// <param name="enc"></param>
+        public void SwitchEncoding(AddressEncoding enc = AddressEncoding.BASE16)
+        {
+            if (_curr == enc) return;
+
+            switch (_curr)
+            {
+                case AddressEncoding.BASE16:
+                    Base16ToBech32Address();
+                    break;
+                case AddressEncoding.BECH32:
+                    Bech32ToBase16Address();
+                    break;
+            }
         }
         
     }

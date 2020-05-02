@@ -1,4 +1,5 @@
 ﻿using MusZil_Core.Accounts;
+using MusZil_Core.Contracts;
 using MusZil_Core.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,17 +12,22 @@ namespace MusZil_Core.API
 {
     public class ResponseHandler 
     {
-        public static MusResult GetResult(ref APIResponse response, Unit unit = Unit.ZIL)
+        public static MusResult GetResult(ref APIResponse response)
         {
             var msg = "";
-            var resStr = "";
-            if (!CheckError(ref response, out msg))
-            {
-                resStr = (string)((JObject)response.Result)["result"];
-            }
-            var result = new MusResult(resStr, msg);
-            return result;
+            object res = null;
+            var error = CheckError(ref response, out msg);
+            return new MusResult(response.Result, msg) { Error = error };
         }
+
+        public static MusResult GetSubFromResult(ref APIResponse resp, string sub = "")
+        {
+            var msg = "";
+            var o = ((JObject)resp.Result)[sub];
+            var error = CheckError(ref resp, out msg);
+            return new MusResult(o, msg) { Error = error};
+        }
+
         #region Accounts
 
         /// <summary>
@@ -32,7 +38,7 @@ namespace MusZil_Core.API
         /// <returns></returns>
         public static MusResult GetBalanceFromResult(ref APIResponse resp, Unit unit = Unit.ZIL)
         {
-            float balance = resp.Error != null ? -1 : (float)((JObject)resp.Result)["balance"];
+            decimal balance = resp.Error != null ? -1 : (decimal)((JObject)resp.Result)["balance"];
             var bal = new Balance(balance);
             bal.SwitchUnit(unit);
             var msg = "";
@@ -67,7 +73,6 @@ namespace MusZil_Core.API
             var result = new MusResult(balance, "GetContractCode Success");
             return result;
         }
-
         #endregion
 
         #region Helpers

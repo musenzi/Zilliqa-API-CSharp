@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MusZil_Core</name>
+    </assembly>
+    <members>
+        <member name="M:MusZil_Core.Accounts.Account.#ctor(System.String,System.Decimal)">
+            <summary>
+            Constructor for readonly account
+            </summary>
+            <param name="address"></param>
+        </member>
+        <member name="M:MusZil_Core.Address.SwitchEncoding(MusZil_Core.Address.AddressEncoding)">
+            <summary>
+            Changes Current encoding of address (default base16)
+            </summary>
+            <param name="enc"></param>
+        </member>
+        <member name="M:MusZil_Core.API.MusZil_APIClient.GetContractCode(System.String)">
+            <summary>
+            Gets contractCode, overloaded with Address,Contract
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.API.MusZil_APIClient.GetSmartContractCode(System.String)">
+            <summary>
+            Gets all contracts for one account
+            </summary>
+            <param name="account"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.API.MusZil_APIClient.CallMethod(MusZil_Core.MusRequest)">
+            <summary>
+            Calls a API method of the Zilliqa API
+            </summary>
+            <param name="req">MusRequest object to pass request</param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.API.RequestFactory.New(System.String,System.Object[])">
+            <summary>
+            Generates new MusRequest
+            </summary>
+            <param name="method"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.API.RequestFactory.New(System.String,System.String)">
+            <summary>
+            Generates new MusRequest with one parameter
+            </summary>
+            <param name="method"></param>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.API.ResponseHandler.GetBalanceFromResult(MusZil_Core.API.APIResponse@,MusZil_Core.Enums.Unit)">
+            <summary>
+            Gets Balance from result object 
+            </summary>
+            <param name="resp"></param>
+            <param name="unit">Default: Unit.ZIL. See Unit enum</param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.MusRequest.ToJson">
+            <summary>
+            Returns request as Json (using NewtonJsoft)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.Utils.ByteUtil.LongToBaseN(System.Int64,System.Int32)">
+            <summary>
+            Converts the given decimal number to the numeral system with the
+            specified radix (in the range [2, 36]).
+            </summary>
+            <param name="decimalNumber">The number to convert.</param>
+            <param name="radix">The radix of the destination numeral system (in the range [2, 36]).</param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.Utils.ByteUtil.Transform(System.String)">
+            <summary>
+            Transforms string to byte array
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="F:MusZil_Core.Utils.MusBech32.CHARSET">
+            The Bech32 character set for encoding.
+        </member>
+        <member name="F:MusZil_Core.Utils.MusBech32.CHARSET_REV">
+            The Bech32 character set for decoding.
+        </member>
+        <member name="M:MusZil_Core.Utils.MusBech32.Polymod(System.Byte[])">
+            **
+        </member>
+        <member name="M:MusZil_Core.Zilliqa.GetBalance(System.String)">
+            <summary>
+            Gets balance from account
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.Zilliqa.GetSmartContractCode(System.String)">
+            <summary>
+            Gets contractCode, overloaded with Address,Contract
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.Zilliqa.GetContractBalance(System.String)">
+            <summary>
+            Gets Contract Balance, overloaded with: Address,Contract
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.Zilliqa.GetSmartContracts(System.String)">
+            <summary>
+            Gets all contracts for one account
+            </summary>
+            <param name="account"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MusZil_Core.Zilliqa.GetContractAddressFromTransactionID(System.String)">
+            <summary>
+            Gets the contract address from tnx Id
+            </summary>
+            <param name="address"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

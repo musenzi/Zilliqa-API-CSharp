@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusZil_Core", "MusZil_Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestMusZIL", "NUnitTestMusZIL\NUnitTestMusZIL.csproj", "{B4451AB1-0D34-446A-A552-ED87D73E04FC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C127492-9BD6-44E0-A0BB-F8C3DE2FBC32}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,9 +22,6 @@ Global
 		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52DD8E1A-3B71-45BF-8262-21D0B12A160E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8354A1F-3F70-4DC5-BEF3-37CD5A739268}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4451AB1-0D34-446A-A552-ED87D73E04FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4451AB1-0D34-446A-A552-ED87D73E04FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4451AB1-0D34-446A-A552-ED87D73E04FC}.Release|Any CPU.ActiveCfg = Release|Any CPU

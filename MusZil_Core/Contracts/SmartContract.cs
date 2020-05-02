@@ -5,15 +5,16 @@ using System.Text;
 
 namespace MusZil_Core.Contracts
 {
-    public class Contract
+    public class SmartContract
     {
         public Address Address;
-        public Contract(string address = "", string code = "")
+        [JsonConstructor]
+        public SmartContract(string address = "", string code = "")
         {
             Address = new Address(address);
             Code = code;
         }
-        public Contract(Address address, string code = "")
+        public SmartContract(Address address, string code = "")
         {
             Address = address;
             Code = code;
@@ -25,13 +26,22 @@ namespace MusZil_Core.Contracts
             set => _address = new Address(value); 
         }
         [JsonProperty("state")]
-        public List<StateItem> State { get; set; }
+        public StateItem State { get; set; }
         [JsonProperty("code")]
         public string Code { get; set; }
 
     }
 
     public class StateItem
+    {
+        [JsonProperty("_balance")]
+        public decimal _balance { get; set; }
+        public Balance Balance { get { return new Balance(_balance); } }
+        public object AllValues { get; set; }
+        
+    }
+
+    public class SmartContractParameter
     {
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -40,5 +50,17 @@ namespace MusZil_Core.Contracts
         [JsonProperty("vname")]
         public string Name { get; set; }
     }
+
+    public class SmartContractInit
+    {
+        public List<SmartContractParameter> Parameters;
+
+        public SmartContractInit(List<SmartContractParameter>parameters = null)
+        {
+            Parameters = parameters ?? new List<SmartContractParameter>();
+        }
+    }
+
+
 }
 

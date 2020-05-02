@@ -2,6 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Mus_ZilliqaCSharp</PackageId>
+    <Authors>Musenzi</Authors>
+    <Company>Musenzi Solitions</Company>
+    <Product>Zilliqa API SDK</Product>
+    <Description>Mus_ZilliqaCSharpis a library that lets you interact with the Zilliqa blockhain. 
+</Description>
+    <Copyright>Musenzi Solutions</Copyright>
+    <PackageProjectUrl>https://github.com/musenzi/Zilliqa-API-CSharp</PackageProjectUrl>
+    <PackageIcon>Musenzi_Logo2_1.jpg</PackageIcon>
+    <RepositoryUrl>https://github.com/musenzi/Zilliqa-API-CSharp.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>Zilliqa Blockchain</PackageTags>
+    <SignAssembly>false</SignAssembly>
+    <PackageReleaseNotes>Mus_ZilliqaCSharp implements all functions found at https://apidocs.zilliqa.com/ and lets you call those functions in an encapsulated OO manner.</PackageReleaseNotes>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>S:\Projects\VS\ZIL\ZilliqaCSharp\MusZil_Core\MusZil_Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +33,17 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\musenzi.be\wwwroot\images\Musenzi_Logo2_1.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
