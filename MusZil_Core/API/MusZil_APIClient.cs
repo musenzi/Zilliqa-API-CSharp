@@ -74,15 +74,9 @@ namespace MusZil_Core.API
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
-		public async Task<MusResult> GetDSBlockListing(int pageNumber = 0)
+		public async Task<MusResult> GetDSBlockListing(int blockNum)
 		{
-			var req = RequestFactory.New("DSBlockListing", pageNumber.ToString());
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-		public async Task<MusResult> GetDSBlockListing()
-		{
-			var req = RequestFactory.New("DSBlockListing");
+			var req = RequestFactory.New("DSBlockListing", new object[] { blockNum });
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
@@ -112,7 +106,7 @@ namespace MusZil_Core.API
 		}
 		public async Task<MusResult> GetTxBlockListing(int pageNumber)
 		{
-			var req = RequestFactory.New("TxBlockListing", pageNumber.ToString());
+			var req = RequestFactory.New("TxBlockListing", new object[] { pageNumber });
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}

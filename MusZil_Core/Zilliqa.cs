@@ -27,23 +27,29 @@ namespace MusZil_Core
         {
             var acc = new Account(address);
 			var res = await _client.GetBalance(address);
-			return  (decimal)res.Result;
-        }
+			return decimal.Parse((string)res.Result);
+		}
 
 		#region Accounts
-
+		/// <summary>
+		/// Gets balance from account
+		/// </summary>
+		/// <param name="address"></param>
+		/// <returns></returns>
 		public async Task<Balance> GetBalance(string address)
 		{
 			var res = await _client.GetBalance(address);
-			var bal = decimal.Parse((string)res.Result);
+			var bal = decimal.Parse(res.Result.ToString());
 			return new Balance(bal);
 		}
 		public async Task<Balance> GetBalance(Address address)
 		{
+			address.SwitchEncoding();
 			return await GetBalance(address.Raw);
 		}
 		public async Task<Balance> GetBalance(Account acc)
 		{
+			acc.Address.SwitchEncoding();
 			return await GetBalance(acc.Address.Raw);
 		}
 
@@ -52,8 +58,8 @@ namespace MusZil_Core
 		#region BlockChain
 		public async Task<int> GetNetworkId()
 		{
-			var resp = await _client.GetNetworkId();
-			return (int)resp.Result;
+			var res = await _client.GetNetworkId();
+			return int.Parse((string)res.Result);
 		}
 
 		public async Task<BlockchainInfo> GetBlockchainInfo()
@@ -74,23 +80,18 @@ namespace MusZil_Core
 		}
 		public async Task<int> GetNumDSBlocks()
 		{
-			var resp = await _client.GetNumDSBlocks();
-			return (int)resp.Result;
+			var res = await _client.GetNumDSBlocks();
+			return int.Parse((string)res.Result);
 		}
-		public async Task<decimal> GetDSBlockRate()
+		public async Task<double> GetDSBlockRate()
 		{
 			var resp = await _client.GetDSBlockRate();
-			return (decimal)resp.Result;
+			return(double)resp.Result;
 		}
-		public async Task<List<BlockInfo>> GetDSBlockListing(int pageNumber = 0)
+		public async Task<BlockListing> GetDSBlockListing(int pageNumber = 1)
 		{
 			var resp = await _client.GetDSBlockListing(pageNumber);
-			return ((JToken)resp.Result).ToObject<List<BlockInfo>>();
-		}
-		public async Task<List<BlockInfo>> GetDSBlockListing()
-		{
-			var resp = await _client.GetDSBlockListing();
-			return ((JToken)resp.Result).ToObject<List<BlockInfo>>();
+			return ((JToken)resp.Result).ToObject<BlockListing>();
 		}
 		public async Task<TxBlock> GetTxBlock(string blockNumber)
 		{
@@ -104,56 +105,61 @@ namespace MusZil_Core
 		}
 		public async Task<int> GetNumTxBlocks()
 		{
-			var resp = await _client.GetNumTxBlocks();
-			return (int)resp.Result;
+			var res = await _client.GetNumTxBlocks();
+			return int.Parse((string)res.Result);
 		}
-		public async Task<decimal> GetTxBlockRate()
+		public async Task<double> GetTxBlockRate()
 		{
 			var resp = await _client.GetTxBlockRate();
-			return (decimal)resp.Result;
+			return (double)resp.Result;
 		}
-		public async Task<List<BlockInfo>> GetTxBlockListing(int pageNumber)
+		public async Task<BlockListing> GetTxBlockListing(int pageNumber)
 		{
 			var resp = await _client.GetTxBlockListing(pageNumber);
-			return ((JToken)resp.Result).ToObject<List<BlockInfo>>();
+			return ((JToken)resp.Result).ToObject<BlockListing>();
 		}
 
 		public async Task<int> GetNumTransactions()
 		{
-			var resp = await _client.GetNumTransactions();
-			return (int)resp.Result;
+			var res = await _client.GetNumTransactions();
+			return int.Parse((string)res.Result);
 		}
 
-		public async Task<decimal> GetTransactionRate()
+		public async Task<double> GetTransactionRate()
 		{
 			var resp = await _client.GetTxBlockRate();
-			return (decimal)resp.Result;
+			return (double)resp.Result;
 		}
 
 		public async Task<int> GetCurrentMiniEpoch()
 		{
 			var resp = await _client.GetCurrentMiniEpoch();
-			return (int)resp.Result;
+			return int.Parse((string)resp.Result);
 		}
 
 		public async Task<int> GetCurrentDSEpoch()
 		{
 			var resp = await _client.GetCurrentDSEpoch();
-			return (int)resp.Result;
+			return int.Parse((string)resp.Result);
 		}
 
-		public async Task<int> GetPrevDifficulty()
+		public async Task<Int64> GetPrevDifficulty()
 		{
 			var resp = await _client.GetPrevDifficulty();
-			return (int)resp.Result;
+			return (Int64)resp.Result;
 		}
 
 		public async Task<int> GetPrevDSDifficulty()
 		{
 			var resp = await _client.GetCurrentMiniEpoch();
-			return (int)resp.Result;
+			return int.Parse((string)resp.Result);
 		}
 
+		public async Task<decimal> GetTotalCoinSupply()
+		{
+			var resp = await _client.GetTotalCoinSupply();
+			return decimal.Parse((string)resp.Result);
+		}
 		#endregion
 
 		#region Contracts
@@ -291,19 +297,29 @@ namespace MusZil_Core
 		public async Task<List<string[]>> GetTransactionsForTxBlock(int blockNum)
 		{
 			var res = await _client.GetTransactionsForTxBlock(blockNum.ToString());
-			return ((JToken)res.Result).ToObject<List<string[]>>();
+			var list = new List<string[]>();
+			if (!res.Error)
+			{ 
+				list = ((JToken)res.Result).ToObject<List<string[]>>();
+			}
+			else if (res.Message != "TxBlock has no transactions")
+			{
+				throw new Exception(res.Message);
+			}
+
+			return list;
 		}
 
 		public async Task<int> GetNumTxnsTxEpoch()
 		{
 			var res = await _client.GetNumTxnsTxEpoch();
-			return ((JToken)res.Result).ToObject<int>();
+			return int.Parse((string)res.Result);
 		}
 
 		public async Task<int> GetNumTxnsDSEpoch()
 		{
 			var res = await _client.GetNumTxnsDSEpoch();
-			return ((JToken)res.Result).ToObject<int>();
+			return int.Parse((string)res.Result);
 		}
 		public async Task<PendingTransaction> GetPendingTxn(string hash)
 		{
@@ -318,7 +334,16 @@ namespace MusZil_Core
 		public async Task<List<Transaction>> GetTxnBodiesForTxBlock(int blockNum)
 		{
 			var res = await _client.GetTxnBodiesForTxBlock(blockNum.ToString());
-			return ((JToken)res.Result).ToObject<List<Transaction>>();
+			var list = new List<Transaction>();
+			if (!res.Error)
+			{
+				list = ((JToken)res.Result).ToObject<List<Transaction>>();
+			}
+			else if (res.Message != "TxBlock has no transactions")
+			{
+				throw new Exception(res.Message);
+			}
+			return list;
 		}
 
 		#endregion

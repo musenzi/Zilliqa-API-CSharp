@@ -33,20 +33,20 @@ namespace NUnitTestMusZIL.IntegrationTests
         [Test]
         public async Task GetNumTxnsTxEpochNotNegative()
         {
-            var num = await _zil.GetNumTxnsDSEpoch();
+            var num = await _zil.GetNumTxnsTxEpoch();
             Console.WriteLine($"Number of transactions in Tx Epoch: {num}");
-            Assert.AreNotEqual(0, num);
+            Assert.IsTrue(num >= 0);
         }
         [Test]
         public async Task GetTxnBodiesForTxBlockNotEmpty()
         {
-            var txns = await _zil.GetTxnBodiesForTxBlock(2);
+            var txns = await _zil.GetTxnBodiesForTxBlock(1353849);
             Assert.IsTrue(txns.Any());
         }
         [Test]
         public async Task GetTransactionsForTxBlockNotEmpty()
         {
-            var txns = await _zil.GetTransactionsForTxBlock(2); 
+            var txns = await _zil.GetTransactionsForTxBlock(1353849); 
             Assert.IsTrue(txns.Any());
         }
         public async Task GetRecentTransactionsNotEmpty()
