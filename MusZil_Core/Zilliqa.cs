@@ -52,146 +52,107 @@ namespace MusZil_Core
 		#region BlockChain
 		public async Task<int> GetNetworkId()
 		{
-			var req = await _client.GetNetworkId();
-			return (int)req.Result;
+			var resp = await _client.GetNetworkId();
+			return (int)resp.Result;
 		}
 
 		public async Task<BlockchainInfo> GetBlockchainInfo()
 		{
-			var res = await _client.GetBlockchainInfo();
-			var musres = JsonConvert.DeserializeObject<BlockchainInfo>(res.Result.ToString());
-			return musres;
+			var resp = await _client.GetBlockchainInfo();
+			return ((JToken)resp.Result).ToObject<BlockchainInfo>();
 		}
 
-		public async Task<ShardingStructure> GetShardingStructure()
+		public async Task<DSBlock> GetDsBlock(string blockNumber)
 		{
-			var res = await _client.GetShardingStructure();
-			var musres = JsonConvert.DeserializeObject<ShardingStructure>(res.Result.ToString());
-			return musres;
+			var resp = await _client.GetDsBlock(blockNumber);
+			return ((JToken)resp.Result).ToObject<DSBlock>();
 		}
-		/*
-
-		public async Task<MusResult> GetDSBlockListing(int pageNumber = 0)
+		public async Task<DSBlock> GetLatestDsBlock()
 		{
-			var req = RequestFactory.New("DSBlockListing", pageNumber.ToString());
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetLatestDsBlock();
+			return ((JToken)resp.Result).ToObject<DSBlock>();
 		}
-
-
-		public async Task<MusResult> GetTxBlockListing(int pageNumber)
+		public async Task<int> GetNumDSBlocks()
 		{
-			var req = RequestFactory.New("TxBlockListing", pageNumber.ToString());
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetNumDSBlocks();
+			return (int)resp.Result;
 		}
-
-
-		public async Task<MusResult> GetNumDSBlocks()
+		public async Task<decimal> GetDSBlockRate()
 		{
-			var req = RequestFactory.New("GetNumDSBlocks", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetDSBlockRate();
+			return (decimal)resp.Result;
 		}
-
-		public async Task<MusResult> GetDSBlockRate()
+		public async Task<List<BlockInfo>> GetDSBlockListing(int pageNumber = 0)
 		{
-			var req = RequestFactory.New("GetDSBlockRate", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetDSBlockListing(pageNumber);
+			return ((JToken)resp.Result).ToObject<List<BlockInfo>>();
 		}
-
-		public async Task<MusResult> GetDSBlockListing()
+		public async Task<List<BlockInfo>> GetDSBlockListing()
 		{
-			var req = RequestFactory.New("DSBlockListing", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetDSBlockListing();
+			return ((JToken)resp.Result).ToObject<List<BlockInfo>>();
 		}
-
-		public async Task<MusResult> GetDsBlock(string blockNumber)
+		public async Task<TxBlock> GetTxBlock(string blockNumber)
 		{
-			var req = RequestFactory.New("GetDsBlock", blockNumber);
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetLatestDsBlock();
+			return ((JToken)resp.Result).ToObject<TxBlock>();
 		}
-
-		public async Task<MusResult> GetTxBlock(string blockNumber)
+		public async Task<TxBlock> GetLatestTxBlock()
 		{
-			var req = RequestFactory.New("GetTxBlock", blockNumber);
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetLatestDsBlock();
+			return ((JToken)resp.Result).ToObject<TxBlock>();
+		}
+		public async Task<int> GetNumTxBlocks()
+		{
+			var resp = await _client.GetNumTxBlocks();
+			return (int)resp.Result;
+		}
+		public async Task<decimal> GetTxBlockRate()
+		{
+			var resp = await _client.GetTxBlockRate();
+			return (decimal)resp.Result;
+		}
+		public async Task<List<BlockInfo>> GetTxBlockListing(int pageNumber)
+		{
+			var resp = await _client.GetTxBlockListing(pageNumber);
+			return ((JToken)resp.Result).ToObject<List<BlockInfo>>();
 		}
 
-		public async Task<MusResult> GetNumTxBlocks()
+		public async Task<int> GetNumTransactions()
 		{
-			var req = RequestFactory.New("GetNumTxBlocks", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetNumTransactions();
+			return (int)resp.Result;
 		}
 
-		public async Task<MusResult> GetTxBlockRate()
+		public async Task<decimal> GetTransactionRate()
 		{
-			var req = RequestFactory.New("GetTxBlockRate", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetTxBlockRate();
+			return (decimal)resp.Result;
 		}
 
-
-		public async Task<MusResult> GetLatestDsBlock()
+		public async Task<int> GetCurrentMiniEpoch()
 		{
-			var req = RequestFactory.New("GetLatestDsBlock", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetCurrentMiniEpoch();
+			return (int)resp.Result;
 		}
 
-		public async Task<MusResult> GetNumTransactions()
+		public async Task<int> GetCurrentDSEpoch()
 		{
-			var req = RequestFactory.New("GetNumTransactions", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetCurrentDSEpoch();
+			return (int)resp.Result;
 		}
 
-		public async Task<MusResult> GetTransactionRate()
+		public async Task<int> GetPrevDifficulty()
 		{
-			var req = RequestFactory.New("GetTransactionRate", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetPrevDifficulty();
+			return (int)resp.Result;
 		}
 
-		public async Task<MusResult> GetCurrentMiniEpoch()
+		public async Task<int> GetPrevDSDifficulty()
 		{
-			var req = RequestFactory.New("GetCurrentMiniEpoch", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
+			var resp = await _client.GetCurrentMiniEpoch();
+			return (int)resp.Result;
 		}
-
-		public async Task<MusResult> GetCurrentDSEpoch()
-		{
-			var req = RequestFactory.New("GetCurrentDSEpoch", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-		public async Task<MusResult> GetPrevDifficulty()
-		{
-			var req = RequestFactory.New("GetPrevDifficulty", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-		public async Task<MusResult> GetPrevDSDifficulty()
-		{
-			var req = RequestFactory.New("GetPrevDSDifficulty", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-		public async Task<MusResult> GetLatestTxBlock()
-		{
-			var req = RequestFactory.New("GetLatestTxBlock", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}*/
 
 		#endregion
 
@@ -264,6 +225,7 @@ namespace MusZil_Core
 			account.Address.SwitchEncoding();
 			return await GetSmartContracts(account.Address.Raw);
 		}
+
 		/// <summary>
 		/// Gets the contract address from tnx Id
 		/// </summary>

@@ -1,6 +1,4 @@
-﻿using MusZil_Core.Accounts;
-using MusZil_Core.Contracts;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using MusZil_Core.Blockchain;
 
 namespace MusZil_Core.API
 {
@@ -35,14 +32,6 @@ namespace MusZil_Core.API
             var result = await CallMethod(req);
             return ResponseHandler.GetBalanceFromResult(ref result);
         }
-        public async Task<MusResult> GetBalance(Address address)
-        {
-            return await GetBalance(address.Raw);
-        }
-        public async Task<MusResult> GetBalance(Account acc)
-        {
-            return await GetBalance(acc.Address.Raw);
-        }
 
         #endregion
 
@@ -61,83 +50,69 @@ namespace MusZil_Core.API
 			return ResponseHandler.GetResult(ref result);
 		}
 
-		public async Task<MusResult> GetShardingStructure()
-		{
-			var req = RequestFactory.New("GetShardingStructure", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-
-		public async Task<MusResult> GetDSBlockListing(int pageNumber = 0)
-		{
-			var req = RequestFactory.New("DSBlockListing", pageNumber.ToString());
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-
-		public async Task<MusResult> GetTxBlockListing(int pageNumber)
-		{
-			var req = RequestFactory.New("TxBlockListing", pageNumber.ToString());
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-
-		public async Task<MusResult> GetNumDSBlocks()
-		{
-			var req = RequestFactory.New("GetNumDSBlocks", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-		public async Task<MusResult> GetDSBlockRate()
-		{
-			var req = RequestFactory.New("GetDSBlockRate", "");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
-		public async Task<MusResult> GetDSBlockListing()
-		{
-			var req = RequestFactory.New("DSBlockListing","");
-			var result = await CallMethod(req);
-			return ResponseHandler.GetResult(ref result);
-		}
-
 		public async Task<MusResult> GetDsBlock(string blockNumber)
 		{
 			var req = RequestFactory.New("GetDsBlock", blockNumber);
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
-
+		public async Task<MusResult> GetLatestDsBlock()
+		{
+			var req = RequestFactory.New("GetLatestDsBlock", "");
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
+		public async Task<MusResult> GetNumDSBlocks()
+		{
+			var req = RequestFactory.New("GetNumDSBlocks", "");
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
+		public async Task<MusResult> GetDSBlockRate()
+		{
+			var req = RequestFactory.New("GetDSBlockRate", "");
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
+		public async Task<MusResult> GetDSBlockListing(int pageNumber = 0)
+		{
+			var req = RequestFactory.New("DSBlockListing", pageNumber.ToString());
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
+		public async Task<MusResult> GetDSBlockListing()
+		{
+			var req = RequestFactory.New("DSBlockListing");
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
 		public async Task<MusResult> GetTxBlock(string blockNumber)
 		{
 			var req = RequestFactory.New("GetTxBlock", blockNumber);
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
-
+		public async Task<MusResult> GetLatestTxBlock()
+		{
+			var req = RequestFactory.New("GetLatestTxBlock", "");
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
 		public async Task<MusResult> GetNumTxBlocks()
 		{
 			var req = RequestFactory.New("GetNumTxBlocks", "");
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
-
 		public async Task<MusResult> GetTxBlockRate()
 		{
 			var req = RequestFactory.New("GetTxBlockRate", "");
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
-
-
-		public async Task<MusResult> GetLatestDsBlock()
+		public async Task<MusResult> GetTxBlockListing(int pageNumber)
 		{
-			var req = RequestFactory.New("GetLatestDsBlock", "");
+			var req = RequestFactory.New("TxBlockListing", pageNumber.ToString());
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
@@ -179,14 +154,14 @@ namespace MusZil_Core.API
 
 		public async Task<MusResult> GetPrevDSDifficulty()
 		{
-			var req = RequestFactory.New("GetPrevDSDifficulty", "");
+			var req = RequestFactory.New("GetPrevDSDifficulty");
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
 
-		public async Task<MusResult> GetLatestTxBlock()
+		public async Task<MusResult> GetTotalCoinSupply()
 		{
-			var req = RequestFactory.New("GetLatestTxBlock", "");
+			var req = RequestFactory.New("GetTotalCoinSupply");
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
@@ -206,32 +181,12 @@ namespace MusZil_Core.API
 			var result = await CallMethod(req);
 			return ResponseHandler.GetContractCode(ref result);
 		}
-		public async Task<MusResult> GetContractCode(Address address)
-		{
-			return await GetContractCode(address.Raw);
-		}
-		public async Task<MusResult> GetContractCode(SmartContract c)
-		{
-			return await GetContractCode(c.Address.Raw);
-		}
-		/// <summary>
-		/// Gets Contract Balance, overloaded with: Address,Contract
-		/// </summary>
-		/// <param name="address"></param>
-		/// <returns></returns>
+		
 		public async Task<MusResult> GetContractBalance(string address)
 		{
 			var req = new MusRequest("GetSmartContractState", address.TrimStart('0').TrimStart('x'));
 			var result = await CallMethod(req);
 			return ResponseHandler.GetContractBalance(ref result);
-		}
-		public async Task<MusResult> GetContractBalance(Address address)
-		{
-			return await GetContractBalance(address.Raw);
-		}
-		public async Task<MusResult> GetContractBalance(SmartContract con)
-		{
-			return await GetContractBalance(con.Address.Raw);
 		}
 
 		/// <summary>
@@ -239,11 +194,7 @@ namespace MusZil_Core.API
 		/// </summary>
 		/// <param name="account"></param>
 		/// <returns></returns>
-		public async Task<MusResult> GetContracts(Account account)
-		{
-			return await GetSmartContracts(account.Address.Base16.Replace("0x",""));
-		}
-		public async Task<MusResult> GetSmartContractCode(String address)
+		public async Task<MusResult> GetSmartContractCode(string address)
 		{
 			var req = RequestFactory.New("GetSmartContractCode", address);
 			var result = await CallMethod(req);
