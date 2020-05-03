@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MusZil_Core
+namespace MusZil_Core.API
 {
     public class MusRequest
     {

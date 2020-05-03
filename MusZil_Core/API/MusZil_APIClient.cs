@@ -10,30 +10,30 @@ using System.Threading.Tasks;
 
 namespace MusZil_Core.API
 {
-    public class MusZil_APIClient
-    {
-        //put this in config file of app
-        const string JSONRPC = "2.0";
-        const string DEV_URL = "https://dev-api.zilliqa.com/";
+	public class MusZil_APIClient : IZilliqaAPIClient<MusResult>
+	{
+		//put this in config file of app
+		const string JSONRPC = "2.0";
+		const string DEV_URL = "https://dev-api.zilliqa.com/";
 
-        private readonly object requestLock = new object();
+		private readonly object requestLock = new object();
 
-        public string Url { get; private set; }
-        public MusZil_APIClient(string url = DEV_URL)
-        {
-            Url = url;
-        }
+		public string Url { get; private set; }
+		public MusZil_APIClient(string url = DEV_URL)
+		{
+			Url = url;
+		}
 
-        #region Accounts
+		#region Accounts
 
-        public async Task<MusResult> GetBalance(string address)
-        {
-            var req = new MusRequest("GetBalance", address);
-            var result = await CallMethod(req);
-            return ResponseHandler.GetBalanceFromResult(ref result);
-        }
+		public async Task<MusResult> GetBalance(string address)
+		{
+			var req = new MusRequest("GetBalance", address);
+			var result = await CallMethod(req);
+			return ResponseHandler.GetBalanceFromResult(ref result);
+		}
 
-        #endregion
+		#endregion
 
 		#region BlockChain
 		public async Task<MusResult> GetNetworkId()
@@ -132,7 +132,7 @@ namespace MusZil_Core.API
 			return ResponseHandler.GetResult(ref result);
 		}
 
-		public async  Task<MusResult> GetCurrentDSEpoch()
+		public async Task<MusResult> GetCurrentDSEpoch()
 		{
 			var req = RequestFactory.New("GetCurrentDSEpoch", "");
 			var result = await CallMethod(req);
@@ -175,7 +175,7 @@ namespace MusZil_Core.API
 			var result = await CallMethod(req);
 			return ResponseHandler.GetContractCode(ref result);
 		}
-		
+
 		public async Task<MusResult> GetContractBalance(string address)
 		{
 			var req = new MusRequest("GetSmartContractState", address.TrimStart('0').TrimStart('x'));
@@ -273,7 +273,7 @@ namespace MusZil_Core.API
 		}
 		public async Task<MusResult> GetTxnBodiesForTxBlock(string blockNum)
 		{
-			var req = RequestFactory.New("GetTxnBodiesForTxBlock",blockNum);
+			var req = RequestFactory.New("GetTxnBodiesForTxBlock", blockNum);
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
@@ -303,43 +303,43 @@ namespace MusZil_Core.API
 		#region Helpers
 
 		private HttpClient GetClient()
-        {
-            HttpClient httpClient = null;
-            lock (requestLock)
-            {
-                httpClient = new HttpClient();
+		{
+			HttpClient httpClient = null;
+			lock (requestLock)
+			{
+				httpClient = new HttpClient();
 
-                //specify to use TLS 1.2 as default connection
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+				//specify to use TLS 1.2 as default connection
+				System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
-                httpClient.DefaultRequestHeaders.Accept.Clear();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }
-            
+				httpClient.DefaultRequestHeaders.Accept.Clear();
+				httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			}
 
-            return httpClient;
-        }
 
-        /// <summary>
-        /// Calls a API method of the Zilliqa API
-        /// </summary>
-        /// <param name="req">MusRequest object to pass request</param>
-        /// <returns></returns>
-        private async Task<APIResponse> CallMethod(MusRequest req)
-        {
-            string result = "";
-            var json = req.ToJson();
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
+			return httpClient;
+		}
 
-            using (var httpClient = GetClient())
-            {
-                var response = await httpClient.PostAsync(Url, data);
-                result = response.Content.ReadAsStringAsync().Result;
-            }
+		/// <summary>
+		/// Calls a API method of the Zilliqa API
+		/// </summary>
+		/// <param name="req">MusRequest object to pass request</param>
+		/// <returns></returns>
+		private async Task<APIResponse> CallMethod(MusRequest req)
+		{
+			string result = "";
+			var json = req.ToJson();
+			var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+			using (var httpClient = GetClient())
+			{
+				var response = await httpClient.PostAsync(Url, data);
+				result = response.Content.ReadAsStringAsync().Result;
+			}
 			var musres = JsonConvert.DeserializeObject<APIResponse>(result);
 
 			return musres;
-        }
-        #endregion
-    }
+		}
+		#endregion
+	}
 }

@@ -10,12 +10,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using MusZil_Core.Transactions;
+using MusZil_Core.API;
 
 namespace MusZil_Core
 {
     public class Zilliqa
     {
-        private MusZil_APIClient _client;
+        private IZilliqaAPIClient<MusResult> _client;
 		const string DEV_URL = "https://dev-api.zilliqa.com/";
 		public Zilliqa() : this(DEV_URL) {}
         public Zilliqa(string APIURL)
