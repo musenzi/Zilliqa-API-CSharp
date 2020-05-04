@@ -10,7 +10,7 @@ namespace MusZil_Core.Blockchain
         [JsonIgnore]
         public override string BlockNum { get => Header.BlockNum; }
         [JsonIgnore]
-        public string Hash { get; set; }
+        public override string Hash { get; set; }
         [JsonProperty("header")]
         public DsBlockHeader Header { get; set; }
         [JsonProperty("signature")]
