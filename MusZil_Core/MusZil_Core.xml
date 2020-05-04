@@ -4,17 +4,17 @@
         <name>MusZil_Core</name>
     </assembly>
     <members>
-        <member name="M:MusZil_Core.Accounts.Account.#ctor(System.String,System.Decimal)">
-            <summary>
-            Constructor for readonly account
-            </summary>
-            <param name="address"></param>
-        </member>
         <member name="M:MusZil_Core.Address.SwitchEncoding(MusZil_Core.Address.AddressEncoding)">
             <summary>
             Changes Current encoding of address (default base16)
             </summary>
             <param name="enc"></param>
+        </member>
+        <member name="M:MusZil_Core.API.MusRequest.ToJson">
+            <summary>
+            Returns request as Json (using NewtonJsoft)
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:MusZil_Core.API.MusZil_APIClient.GetContractCode(System.String)">
             <summary>
@@ -30,7 +30,7 @@
             <param name="account"></param>
             <returns></returns>
         </member>
-        <member name="M:MusZil_Core.API.MusZil_APIClient.CallMethod(MusZil_Core.MusRequest)">
+        <member name="M:MusZil_Core.API.MusZil_APIClient.CallMethod(MusZil_Core.API.MusRequest)">
             <summary>
             Calls a API method of the Zilliqa API
             </summary>
@@ -61,11 +61,11 @@
             <param name="unit">Default: Unit.ZIL. See Unit enum</param>
             <returns></returns>
         </member>
-        <member name="M:MusZil_Core.MusRequest.ToJson">
+        <member name="M:MusZil_Core.Transactions.TransactionPayload.SetVersion(System.Boolean)">
             <summary>
-            Returns request as Json (using NewtonJsoft)
+            Set version using the decimal conversion of the bitwise concatenation of CHAIN_ID and MSG_VERSION parameters.
             </summary>
-            <returns></returns>
+            <param name="testnet"></param>
         </member>
         <member name="M:MusZil_Core.Utils.ByteUtil.LongToBaseN(System.Int64,System.Int32)">
             <summary>
@@ -82,6 +82,13 @@
             </summary>
             <param name="str"></param>
             <returns></returns>
+        </member>
+        <member name="F:MusZil_Core.Utils.CryptoUtil.keystore">
+            The parameters of the secp256k1 curve that Bitcoin uses.
+        </member>
+        <member name="M:MusZil_Core.Utils.CryptoUtil.GetPublicKeyFromPrivateKey(System.String,System.Boolean)">
+            @param privateKey hex string without 0x
+            @return
         </member>
         <member name="F:MusZil_Core.Utils.MusBech32.CHARSET">
             The Bech32 character set for encoding.
@@ -115,17 +122,74 @@
         </member>
         <member name="M:MusZil_Core.Zilliqa.GetSmartContracts(System.String)">
             <summary>
-            Gets all contracts for one account
+            Gets all contracts for one address
             </summary>
-            <param name="account"></param>
+            <param name="address"></param>
             <returns></returns>
         </member>
         <member name="M:MusZil_Core.Zilliqa.GetContractAddressFromTransactionID(System.String)">
             <summary>
             Gets the contract address from tnx Id
             </summary>
-            <param name="address"></param>
+            <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:MusZilCore.Proto.TransactionmessageReflection">
+            <summary>Holder for reflection information generated from transactionmessage.proto</summary>
+        </member>
+        <member name="P:MusZilCore.Proto.TransactionmessageReflection.Descriptor">
+            <summary>File descriptor for transactionmessage.proto</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ByteArray.DataFieldNumber">
+            <summary>Field number for the "data" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.VersionFieldNumber">
+            <summary>Field number for the "version" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.NonceFieldNumber">
+            <summary>Field number for the "nonce" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.ToaddrFieldNumber">
+            <summary>Field number for the "toaddr" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.SenderpubkeyFieldNumber">
+            <summary>Field number for the "senderpubkey" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.AmountFieldNumber">
+            <summary>Field number for the "amount" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.GaspriceFieldNumber">
+            <summary>Field number for the "gasprice" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.GaslimitFieldNumber">
+            <summary>Field number for the "gaslimit" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.CodeFieldNumber">
+            <summary>Field number for the "code" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionInfo.DataFieldNumber">
+            <summary>Field number for the "data" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransaction.TranidFieldNumber">
+            <summary>Field number for the "tranid" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransaction.InfoFieldNumber">
+            <summary>Field number for the "info" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransaction.SignatureFieldNumber">
+            <summary>Field number for the "signature" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionReceipt.ReceiptFieldNumber">
+            <summary>Field number for the "receipt" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionReceipt.CumgasFieldNumber">
+            <summary>Field number for the "cumgas" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionWithReceipt.TransactionFieldNumber">
+            <summary>Field number for the "transaction" field.</summary>
+        </member>
+        <member name="F:MusZilCore.Proto.ProtoTransactionWithReceipt.ReceiptFieldNumber">
+            <summary>Field number for the "receipt" field.</summary>
         </member>
     </members>
 </doc>

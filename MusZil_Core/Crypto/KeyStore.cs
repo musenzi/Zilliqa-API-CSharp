@@ -108,7 +108,7 @@ namespace MusZil_Core
 
         public byte[] GetDerivedKey(byte[] password, KDFParams parameters)
         {
-            if (parameters is PBKDF2Params)
+            if (parameters is Pbkdf2)
             {
                 var pbkdf2Params = (Pbkdf2)parameters;
                 return pbkdf2Params.GetDerivedKey(password);
@@ -157,9 +157,6 @@ namespace MusZil_Core
 
             KeyStore cry = new KeyStore();
             byte[] ciphertext = cry.GenerateAesCtrCipher(iv, encryptKey, ByteUtil.HexStringToByteArray(privateKey));
-            //Genrate Mac
-            var mac = HashUtil.GenerateMac(encryptKey,ciphertext);
-
             //build struct
             CipherParams cipherParams = new CipherParams();
             cipherParams.Iv = ByteUtil.ByteArrayToHexString(iv);
@@ -174,7 +171,7 @@ namespace MusZil_Core
             crypto.Mac = Encoding.UTF8.GetString(HashUtil.GenerateMac(derivedKey,ciphertext));
 
             KeyStore key = new KeyStore();
-            key.Address = address;
+            key.Address = "0x" + address;
             key.Crypto = crypto;
             key.Id = Guid.NewGuid().ToString();
             key.Version = 3;

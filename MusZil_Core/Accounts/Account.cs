@@ -9,12 +9,6 @@ namespace MusZil_Core.Accounts
 {
     public class Account
     {
-        // TODO Lookup public key from address
-
-        private string _address;
-        private ECKeyPair _kp;
-        private KeyStore _ks;
-
         public Balance Balance { get; set; }
         public Address Address { get; set; }
         public ECKeyPair KeyPair { get; set; }
@@ -38,12 +32,12 @@ namespace MusZil_Core.Accounts
 
         public string GetPublicKey()
         {
-            return ByteUtil.ByteArrayToHexString(_kp.PublicKey.ToByteArray());
+            return ByteUtil.ByteArrayToHexString(KeyPair.PublicKey.ToByteArray());
         }
 
         public string GetPrivateKey()
         {
-            return ByteUtil.ByteArrayToHexString(_kp.PrivateKey.ToByteArray());
+            return ByteUtil.ByteArrayToHexString(KeyPair.PrivateKey.ToByteArray());
         }
 
         public static string ToCheckSumAddress(string address)
@@ -79,7 +73,7 @@ namespace MusZil_Core.Accounts
             Balance = new Balance();
             var pub = CryptoUtil.GetPublicKeyFromPrivateKey(pk, true);
             Address.Raw = "0x" + CryptoUtil.GetAddressFromPublicKey(pub);
-            _kp = new ECKeyPair(new BigInteger(pk, 16), new BigInteger(pub, 16));
+            KeyPair = new ECKeyPair(new BigInteger(pk, 16), new BigInteger(pub, 16));
         }
     }
 }

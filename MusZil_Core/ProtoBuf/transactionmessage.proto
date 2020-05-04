@@ -1,0 +1,44 @@
+﻿syntax = "proto3";
+
+package MusZil_Core.Proto;
+
+// ============================================================================
+// Primitives
+// ============================================================================
+
+        message ByteArray
+        {
+         bytes data = 1;
+        }
+
+        message ProtoTransactionInfo
+        {
+            uint32 version      = 1;
+            uint64 nonce        = 2;
+            bytes toaddr           = 3;
+            ByteArray senderpubkey = 4;
+            ByteArray amount       = 5;
+            ByteArray gasprice     = 6;
+            uint64 gaslimit     = 7;
+            bytes code             = 8;
+            bytes data             = 9;
+        }
+
+        message ProtoTransaction
+        {
+        bytes tranid                  = 1;
+        ProtoTransactionInfo info = 2;
+        ByteArray signature           = 3;
+        }
+
+        message ProtoTransactionReceipt
+        {
+        bytes receipt    = 1;
+        uint64 cumgas = 2;
+        }
+
+        message ProtoTransactionWithReceipt
+        {
+        ProtoTransaction transaction    = 1;
+        ProtoTransactionReceipt receipt = 2;
+        }
