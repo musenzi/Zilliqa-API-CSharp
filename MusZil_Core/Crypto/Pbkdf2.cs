@@ -9,7 +9,7 @@ namespace MusZil_Core.Crypto
 {
     public class Pbkdf2 : KDFParams
     {
-        public string Salt { get; set; }
+        public override string Salt { get; set; }
         public int DkLen { get; set; }
         public int Count { get; set; }
         public Pbkdf2(string salt, int count, int dklen = 32)

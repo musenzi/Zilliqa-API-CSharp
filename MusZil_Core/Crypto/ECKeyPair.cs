@@ -1,17 +1,10 @@
 ﻿using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto.EC;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Asn1.X9;
-using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Crypto.EC;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
 using Org.BouncyCastle.Math.EC.Multiplier;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace MusZil_Core.Crypto

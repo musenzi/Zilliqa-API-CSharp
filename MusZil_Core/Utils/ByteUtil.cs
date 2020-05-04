@@ -117,7 +117,6 @@ namespace MusZil_Core.Utils
         public static string ConvertHexToValueString(string str)
         {
             StringBuilder sb = new StringBuilder(str.Length * 3);
-            var l = 0xFFFFFFFF;
             foreach (var c in str.ToCharArray())
             {
                 LongToBaseN(c, 8);
