@@ -1,24 +1,23 @@
 ﻿using MusZil_Core.API;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using MusZil_Core.Accounts;
 using MusZil_Core.Contracts;
 using MusZil_Core.Blockchain;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Linq;
 using MusZil_Core.Transactions;
-using MusZil_Core.API;
 
 namespace MusZil_Core
 {
-    public class Zilliqa
+	public class Zilliqa
     {
         private IZilliqaAPIClient<MusResult> _client;
-		const string DEV_URL = "https://dev-api.zilliqa.com/";
-		public Zilliqa() : this(DEV_URL) {}
+		public static readonly string TESTNET = "https://dev-api.zilliqa.com/";
+		public static readonly string MAINNET = "https://api.zilliqa.com/";
+		public Zilliqa(bool test = true) {
+			_client = test ?  new MusZil_APIClient(TESTNET): new MusZil_APIClient(MAINNET);
+		}
         public Zilliqa(string APIURL)
         {
             _client = new MusZil_APIClient(APIURL);
@@ -40,8 +39,7 @@ namespace MusZil_Core
 		public async Task<Balance> GetBalance(string address)
 		{
 			var res = await _client.GetBalance(address);
-			var bal = decimal.Parse(res.Result.ToString());
-			return new Balance(bal);
+			return ((JObject)res.Result).ToObject<Balance>();
 		}
 		public async Task<Balance> GetBalance(Address address)
 		{
@@ -53,7 +51,6 @@ namespace MusZil_Core
 			acc.Address.SwitchEncoding();
 			return await GetBalance(acc.Address.Raw);
 		}
-
 		#endregion
 
 		#region BlockChain
@@ -204,22 +201,26 @@ namespace MusZil_Core
 		}
 
 		/// <summary>
-		/// Gets all contracts for one account
+		/// Gets all contracts for one address
 		/// </summary>
-		/// <param name="account"></param>
+		/// <param name="address"></param>
 		/// <returns></returns>
 		public async Task<List<SmartContract>> GetSmartContracts(string address)
 		{
 			var res = await _client.GetSmartContracts(address);
-			if (res.Result == null)
+			if (res.Error)
 			{
 				throw new ArgumentException(res.Message);
 			}
 			var l = new List<SmartContract>();
-			foreach (var r in (JArray)res.Result)
+			if (res.Result != null)
 			{
-				l.Add(r.ToObject<SmartContract>());
+				foreach (var r in (JArray)res.Result)
+				{
+					l.Add(r.ToObject<SmartContract>());
+				}
 			}
+			
 			return l;
 		}
 		public async Task<List<SmartContract>> GetSmartContracts(Address address)
@@ -236,17 +237,17 @@ namespace MusZil_Core
 		/// <summary>
 		/// Gets the contract address from tnx Id
 		/// </summary>
-		/// <param name="address"></param>
+		/// <param name="id"></param>
 		/// <returns></returns>
-		public async Task<string> GetContractAddressFromTransactionID(string address)
+		public async Task<Address> GetContractAddressFromTransactionID(string id)
 		{
-			var res = await _client.GetContractAddressFromTransactionID(address);
-			return (string)res.Result;
-		}
-		public async Task<string> GetContractAddressFromTransactionID(Address address)
-		{
-			address.SwitchEncoding() ;
-			return await GetContractAddressFromTransactionID(address.Raw);
+			var res = await _client.GetContractAddressFromTransactionID(id);
+			if (res.Error)
+			{
+				throw new Exception(res.Message);
+			}
+			var address = new Address(res.Result.ToString());
+			return address;
 		}
 
 
