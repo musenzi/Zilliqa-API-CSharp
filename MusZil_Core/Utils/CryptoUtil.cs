@@ -49,14 +49,9 @@ namespace MusZil_Core.Utils
 
         public static bool IsBytestring(string address)
         {
-            System.Console.WriteLine(address);
-
-            MatchCollection matchs = Regex.Matches(address, pattern);
-            foreach (Match match in matchs)
-            {
-                System.Console.WriteLine(match.Groups);
-            }
-            return true;
+            var match = Regex.Match(address, pattern);
+            
+            return match.Success;
         }
 
         /**
@@ -74,7 +69,6 @@ namespace MusZil_Core.Utils
         {
             SHA256 s = new SHA256Managed();
             byte[] address = s.ComputeHash(ByteUtil.HexStringToByteArray(publicKey));
-            //byte[] address = GetAddressFromPublicKey);
             return ByteUtil.ByteArrayToHexString(address).Substring(24);
         }
 

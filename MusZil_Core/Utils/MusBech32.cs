@@ -133,9 +133,9 @@ namespace MusZil_Core.Utils
 
 
 
-        public static string Encode(Bech32 bech32)
+        public static string Encode(Bech32 bech32,int length = 42)
         {
-            return Encode(bech32.hrp, bech32.data);
+            return Encode(bech32.hrp, bech32.data).Substring(0,length);
         }
         public static string Encode(string hrp, byte[] values)
         {

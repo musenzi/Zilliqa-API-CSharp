@@ -100,10 +100,6 @@ namespace MusZil_Core.Utils
                     inputOffset,
                     inputBytes.Length - inputOffset);
 
-                //outputFileStream.Write(outputBytes, 0, outputBytes.Length);
-                //Console.WriteLine("Created encoded file at " + targetFile);
-
-
                 //Determine if the current transform can be reused.
                 if (!base64Transform.CanReuseTransform)
                 {
