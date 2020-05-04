@@ -6,13 +6,13 @@ namespace MusZil_Core.Accounts
 {
     public static class AccountFactory
     {
-        public static Account New(string address = "")
+        public static Account New(string pk)
         {
-            return new Account(address);
+            return new Account(pk);
         }
-        public static Account New(Address address = null)
+        public static Account FromJsonFile(string file, string passPhrase)
         {
-            return new Account(address);
+            return new Account(file, passPhrase);
         }
     }
 }
