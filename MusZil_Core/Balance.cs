@@ -1,18 +1,27 @@
 ﻿using MusZil_Core.Enums;
+using Newtonsoft.Json;
 
 namespace MusZil_Core
 {
     public class Balance
     {
+        [JsonProperty("balance")]
         private decimal _balance;
+        [JsonProperty("nonce")]
+        public long Nonce;
         private Unit _u;
+
+        
         public Balance(decimal bal = 0)
         {
             _balance = bal;
             _u = Unit.QA;
         }
-        public decimal GetBalance()
+
+        public decimal GetBalance(Unit u = Unit.ZIL)
         {
+            if(_u != u)
+            SwitchUnit(u);
             return _balance;
         }
         public void SwitchUnit(Unit u)

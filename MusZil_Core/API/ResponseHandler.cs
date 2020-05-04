@@ -15,7 +15,6 @@ namespace MusZil_Core.API
         public static MusResult GetResult(ref APIResponse response)
         {
             var msg = "";
-            object res = null;
             var error = CheckError(ref response, out msg);
             return new MusResult(response.Result, msg) { Error = error };
         }
@@ -36,14 +35,13 @@ namespace MusZil_Core.API
         /// <param name="resp"></param>
         /// <param name="unit">Default: Unit.ZIL. See Unit enum</param>
         /// <returns></returns>
-        public static MusResult GetBalanceFromResult(ref APIResponse resp, Unit unit = Unit.ZIL)
+        public static MusResult GetBalanceFromResult(ref APIResponse resp, Unit unit = Unit.QA)
         {
             decimal balance = resp.Error != null ? -1 : (decimal)((JObject)resp.Result)["balance"];
             var bal = new Balance(balance);
-            bal.SwitchUnit(unit);
             var msg = "";
             CheckError(ref resp, out msg);
-            return new MusResult(bal.GetBalance(),msg);
+            return new MusResult(bal.GetBalance(unit),msg);
         }
 
         #endregion

@@ -30,9 +30,9 @@ namespace MusZil_Core.API
 		{
 			var req = new MusRequest("GetBalance", address);
 			var result = await CallMethod(req);
-			return ResponseHandler.GetBalanceFromResult(ref result);
+			return ResponseHandler.GetResult(ref result);
 		}
-
+		
 		#endregion
 
 		#region BlockChain
@@ -202,9 +202,9 @@ namespace MusZil_Core.API
 			return ResponseHandler.GetResult(ref result);
 		}
 
-		public async Task<MusResult> GetContractAddressFromTransactionID(string address)
+		public async Task<MusResult> GetContractAddressFromTransactionID(string id)
 		{
-			var req = RequestFactory.New("GetContractAddressFromTransactionID", address);
+			var req = RequestFactory.New("GetContractAddressFromTransactionID", id);
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
