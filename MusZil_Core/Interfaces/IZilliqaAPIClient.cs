@@ -6,7 +6,7 @@ namespace MusZil_Core.API
     {
         string Url { get; }
 
-        Task<T> CreateTransaction(string payload);
+        Task<T> CreateTransaction(object payload);
         Task<T> GetBalance(string address);
         Task<T> GetBlockchainInfo();
         Task<T> GetContractAddressFromTransactionID(string address);

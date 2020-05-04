@@ -240,6 +240,14 @@ namespace MusZil_Core.API
 			var result = await CallMethod(req);
 			return ResponseHandler.GetResult(ref result);
 		}
+		public async Task<MusResult> CreateTransaction(object payload)
+		{
+			var arr = new object[1];
+			arr[0] = payload;
+			var req = RequestFactory.New("CreateTransaction", arr);
+			var result = await CallMethod(req);
+			return ResponseHandler.GetResult(ref result);
+		}
 
 		public async Task<MusResult> GetTransaction(string hash)
 		{

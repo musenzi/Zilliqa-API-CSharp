@@ -7,6 +7,7 @@ using MusZil_Core.Contracts;
 using MusZil_Core.Blockchain;
 using Newtonsoft.Json.Linq;
 using MusZil_Core.Transactions;
+using Newtonsoft.Json;
 
 namespace MusZil_Core
 {
@@ -271,10 +272,19 @@ namespace MusZil_Core
 		#endregion
 
 		#region Transactions
-		public async Task<Info> CreateTransaction(string payload)
+		public async Task<Transaction.Info> CreateTransaction(TransactionPayload payload)
+		{
+			
+			var res = await _client.CreateTransaction(payload);
+			if (res.Error)
+			 throw new Exception(res.Message); 
+
+			return ((JToken)res.Result).ToObject<Transaction.Info>();
+		}
+		public async Task<Transaction.Info> CreateTransaction(string payload)
 		{
 			var res = await _client.CreateTransaction(payload);
-			return ((JToken)res.Result).ToObject<Info>();
+			return ((JToken)res.Result).ToObject<Transaction.Info>();
 		}
 
 		public async Task<int> GetMinimumGasPrice()

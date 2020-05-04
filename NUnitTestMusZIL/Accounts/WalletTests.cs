@@ -10,12 +10,6 @@ namespace NUnitTestMusZIL.Accounts
 {
     public class WalletTests : MusTest
     {
-        private Wallet _wallet;
-        [SetUp]
-        public void Initialize()
-        {
-            _wallet = new Wallet(_account);
-        }
 
         [Test]
         public void CreateWalletHasAccount()
