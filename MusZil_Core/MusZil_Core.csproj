@@ -6,20 +6,21 @@
     <PackageId>Mus_ZilliqaCSharp</PackageId>
     <Authors>Musenzi</Authors>
     <Company>Musenzi Solitions</Company>
-    <Product>Zilliqa API SDK</Product>
-    <Description>Mus_ZilliqaCSharpis a library that lets you interact with the Zilliqa blockhain. 
+    <Product>Zilliqa API SDK C#</Product>
+    <Description>Mus_ZilliqaCSharp is a library for .Net core that lets you interact with the Zilliqa blockhain API 
 </Description>
     <Copyright>Musenzi Solutions</Copyright>
     <PackageProjectUrl>https://github.com/musenzi/Zilliqa-API-CSharp</PackageProjectUrl>
     <PackageIcon>Musenzi_Logo2_1.jpg</PackageIcon>
     <RepositoryUrl>https://github.com/musenzi/Zilliqa-API-CSharp.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageTags>Zilliqa Blockchain</PackageTags>
+    <PackageTags>Zilliqa ZIL Blockchain</PackageTags>
     <SignAssembly>false</SignAssembly>
     <PackageReleaseNotes>Mus_ZilliqaCSharp implements all functions found at https://apidocs.zilliqa.com/ and lets you call those functions in an encapsulated OO manner.</PackageReleaseNotes>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
