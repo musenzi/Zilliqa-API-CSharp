@@ -1,4 +1,5 @@
 ﻿using MusZil_Core.Accounts;
+using MusZil_Core.Transactions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace NUnitTestMusZIL.IntegrationTests
         {
             var num = await _zil.GetNumTxnsDSEpoch();
             Console.WriteLine($"Number of transactions in DS Epoch: {num}");
-            Assert.AreNotEqual(0, num);
+            Assert.AreNotEqual(-1, num);
         }
         [Test]
         public async Task GetNumTxnsTxEpochNotNegative()
@@ -72,9 +73,24 @@ namespace NUnitTestMusZIL.IntegrationTests
             var txn = await _zil.GetTransaction(hash);
             Assert.IsTrue(txn != null);
         }
+        [Test]
         public async Task CreateTransactionHasId()
         {
             //TODO figure out how to create transaction tests with signatures
+
+            var tx = new TransactionPayload() {
+                ToAddr = "4C352ba2Bd33245CDA180699e6B5c6334AB5dC26",
+                Amount = "1000000000000",
+                GasPrice = "1000000000",
+                GasLimit = "1",
+                Code = "",
+                Data = "",
+                Priority = false
+            };
+            tx.SetVersion(true);
+            var signed = _wallet.SignWith(tx,_account,true);
+            var info = await _zil.CreateTransaction(signed);
+            Assert.IsNotNull(info);
         }
     }
 }

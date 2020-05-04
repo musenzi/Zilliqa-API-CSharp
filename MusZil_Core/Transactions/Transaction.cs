@@ -7,6 +7,10 @@ namespace MusZil_Core.Transactions
 {
     public class Transaction
     {
+        private bool _normalTx;
+        private long _gasLimit;
+        private int _version;
+
         [JsonProperty("ID")]
         public string Id { get; set; }
 
@@ -17,7 +21,16 @@ namespace MusZil_Core.Transactions
         public string Data { get; set; }
 
         [JsonProperty("gasLimit")]
-        public long GasLimit { get; set; }
+        public long GasLimit { 
+            get => _gasLimit;
+            set { 
+                   if (_normalTx && value <= 1000000000000) {
+                    var zVal = value / 1000000000000;
+                    throw new ArgumentOutOfRangeException($"Normal transactions should have 1 gas, {zVal} found instead");
+                }
+                _gasLimit = value;
+            }
+        }
 
         [JsonProperty("gasPrice")]
         public long GasPrice { get; set; }
@@ -38,7 +51,16 @@ namespace MusZil_Core.Transactions
         public string ToAddr { get; set; }
 
         [JsonProperty("version")]
-        public int Version { get; set; }
+        public int Version {get;set;}
+
+        public class Info
+        {
+            [JsonProperty("Info")]
+            public string InfoMessage { get; set; }
+            [JsonProperty("TranID")]
+            public string TransactionId { get; set; }
+        }
+
     }
 
     public partial class EventLog

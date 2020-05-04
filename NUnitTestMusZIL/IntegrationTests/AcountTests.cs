@@ -18,7 +18,9 @@ namespace NUnitTestMusZIL.IntegrationTests
         public async Task GetBalanceWithAccount()
         {
             var res = await _zil.GetBalance(_account);
-            Assert.IsFalse(res.GetBalance() < 0);
+            var bal = res.GetBalance();
+            Console.WriteLine($"Account balance is: {bal}");
+            Assert.IsFalse(bal < 0);
         }
         [Test]
         public async Task GetBalanceWithAddress()

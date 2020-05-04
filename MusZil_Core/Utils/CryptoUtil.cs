@@ -1,80 +1,105 @@
-﻿using Newtonsoft.Json;
+﻿using MusZil_Core.Crypto;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.X9;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.EC;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Math.EC;
+using Org.BouncyCastle.Math.EC.Multiplier;
+using Org.BouncyCastle.Security;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
+using ECPoint = Org.BouncyCastle.Math.EC.ECPoint;
 
 namespace MusZil_Core.Utils
 {
     public class CryptoUtil
     {
-        public static string GenerateXmlKeyInfo(bool inculdePrivate = false)
-        {
-            //Generate a public/private key pair.  
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            //Save the public key information to an RSAParameters structure.  
-            RSAParameters rsaKeyInfo = rsa.ExportParameters(inculdePrivate);
+        
 
-            return  rsa.ToXmlString(true);
+        #region Keystore utils
+        /**
+         * The parameters of the secp256k1 curve that Bitcoin uses.
+         */
+        
+        private static KeyStore keystore = new KeyStore();
+        private static string pattern = "^(0x)?[0-9a-f]";
+
+
+        public static string GeneratePrivateKey()
+        {
+            ECKeyPair keys = Schnorr.GenerateKeyPair();
+            return keys.PrivateKey.ToString(8);
         }
-        public static string GenerateJsonKeyInfo(bool inculdePrivate = false)
-        {
-            //Generate a public/private key pair.  
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            //Save the public key information to an RSAParameters structure.  
-            RSAParameters rsaKeyInfo = rsa.ExportParameters(inculdePrivate);
 
-            //XElement newNode = XDocument.Parse(rsa.ToXmlString(true)).Root;
+        public static string GetAddressFromPrivateKey(string privateKey)
+        {
+            string publicKey = GetPublicKeyFromPrivateKey(privateKey, true);
+            return GetAddressFromPublicKey(publicKey);
+        }
+
+        public static bool IsBytestring(string address)
+        {
+            var match = Regex.Match(address, pattern);
             
-            string xmlContent = rsa.ToXmlString(true);
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xmlContent);
-            XmlNode newNode = doc.DocumentElement;
-
-            var json = JsonConvert.SerializeXmlNode(newNode);
-            
-            return json;
+            return match.Success;
         }
 
-        public static void Encrypt()
+        /**
+         * @param privateKey hex string without 0x
+         * @return
+         */
+        public static string GetPublicKeyFromPrivateKey(string privateKey, bool compressed)
         {
-            //Initialize the byte arrays to the public key information.  
-            byte[] publicKey = {214,46,220,83,160,73,40,39,201,155,19,202,3,11,191,178,56,
-            74,90,36,248,103,18,144,170,163,145,87,54,61,34,220,222,
-            207,137,149,173,14,92,120,206,222,158,28,40,24,30,16,175,
-            108,128,35,230,118,40,121,113,125,216,130,11,24,90,48,194,
-            240,105,44,76,34,57,249,228,125,80,38,9,136,29,117,207,139,
-            168,181,85,137,126,10,126,242,120,247,121,8,100,12,201,171,
-            38,226,193,180,190,117,177,87,143,242,213,11,44,180,113,93,
-            106,99,179,68,175,211,164,116,64,148,226,254,172,147};
-
-            byte[] exponent = { 1, 0, 1 };
-
-            //Create values to store encrypted symmetric keys.  
-            byte[] encryptedSymmetricKey;
-            byte[] encryptedSymmetricIV;
-
-            //Create a new instance of the RSACryptoServiceProvider class.  
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-
-            //Create a new instance of the RSAParameters structure.  
-            RSAParameters rsaKeyInfo = new RSAParameters();
-
-            //Set rsaKeyInfo to the public key values.
-            rsaKeyInfo.Modulus = publicKey;
-            rsaKeyInfo.Exponent = exponent;
-
-            //Import key parameters into RSA.  
-            rsa.ImportParameters(rsaKeyInfo);
-
-            //Create a new instance of the RijndaelManaged class.  
-            RijndaelManaged rm = new RijndaelManaged();
-
-            //Encrypt the symmetric key and IV.  
-            encryptedSymmetricKey = rsa.Encrypt(rm.Key, false);
-            encryptedSymmetricIV = rsa.Encrypt(rm.IV, false);
+            BigInteger bigInteger = new BigInteger(privateKey, 16);
+            ECPoint point = GetPublicPointFromPrivate(bigInteger);
+            return ByteUtil.ByteArrayToHexString(point.GetEncoded(compressed));
         }
+
+        public static string GetAddressFromPublicKey(string publicKey)
+        {
+            SHA256 s = new SHA256Managed();
+            byte[] address = s.ComputeHash(ByteUtil.HexStringToByteArray(publicKey));
+            return ByteUtil.ByteArrayToHexString(address).Substring(24);
+        }
+
+        public static byte[] GenerateRandomBytes(int size)
+        {
+            byte[] bytes = new byte[size];
+            new SecureRandom().NextBytes(bytes);
+            return bytes;
+        }
+
+        private static ECPoint GetPublicPointFromPrivate(BigInteger privateKeyPoint)
+        {
+            var CURVE_PARAMS = CustomNamedCurves.GetByName("secp256k1");
+            var CURVE = new ECDomainParameters(CURVE_PARAMS.Curve, CURVE_PARAMS.G, CURVE_PARAMS.N, CURVE_PARAMS.H);
+            if (privateKeyPoint.BitLength > CURVE.N.BitLength)
+            {
+                privateKeyPoint = privateKeyPoint.Mod(CURVE.N);
+            }
+            return new FixedPointCombMultiplier().Multiply(CURVE.G, privateKeyPoint);
+        }
+
+        public static string DecryptPrivateKey(string file, string passphrase)
+        {
+            return keystore.DecryptPrivateKey(file, passphrase);
+        }
+
+        public static string EncryptPrivateKey(string privateKey, string passphrase, KDFType type)
+        {
+            return keystore.EncryptPrivateKey(privateKey, passphrase, type);
+        }
+        
+        #endregion
     }
 }

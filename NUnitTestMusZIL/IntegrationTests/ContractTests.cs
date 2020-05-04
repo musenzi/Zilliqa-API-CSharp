@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,6 @@ namespace NUnitTestMusZIL.IntegrationTests
             base.SetUp();
             _address.Raw = "0x96b324cbdacbf7087f1fb1cdbbe6601a6e8c04c5";
             _contract = new SmartContract(_address);
-            _address.SwitchEncoding();
         }
         [Test]
         public async Task GetBalance()
@@ -62,10 +62,8 @@ namespace NUnitTestMusZIL.IntegrationTests
         [Test]
         public async Task GetContractsNotEmpty()
         {
-            var account = Zilliqa.MakeAccount("zil14kekz6ggqtazcj6ye93ftevumy75nnap5pw4ff");
-
-            var res = await _zil.GetSmartContracts(account);
-            Assert.AreNotEqual(null, res);
+            var res = await _zil.GetSmartContracts(_account);
+            Assert.IsTrue(res.Any());
         }
         [Test]
         public async Task GetContractAddressFromTransactionIDNotEmpty()
@@ -73,6 +71,14 @@ namespace NUnitTestMusZIL.IntegrationTests
             
             var res = await _client.GetContractAddressFromTransactionID(_address.Raw);
             Assert.AreNotEqual("", res.Result);
+        }
+        [Test]
+        public async Task GetStateFromContract()
+        {
+            var res = await _zil.GetSmartContracts(_account);
+            var res0 = res[0];
+
+            Assert.AreNotEqual(null, res0.State);
         }
     }
 }

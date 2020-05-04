@@ -10,21 +10,11 @@ namespace NUnitTestMusZIL.Accounts
     {
         private Account _testAccount;
         private AccountsRepository _repo;
-
         [SetUp]
         public void Setup()
         {
-            _testAccount = new Account("");
             _repo = new AccountsRepository();
         }
 
-        [Test]
-        public void AddAccountNoAddressThrowsException()
-        {
-
-            Assert.Throws<ArgumentException>(() => {
-                _repo.Add(_testAccount);
-            });
-        }
     }
 }

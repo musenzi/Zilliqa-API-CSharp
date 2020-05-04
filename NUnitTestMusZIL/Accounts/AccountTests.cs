@@ -1,24 +1,23 @@
 using NUnit.Framework;
 using MusZil_Core.Accounts;
+using System;
 
 namespace NUnitTestMusZIL.Accounts
 {
-    public class Tests
+    public class AccountTests : MusTest
     {
-        public Account TestAccount { get; set; }
-
-        [SetUp]
-        public void Setup()
-        {
-
-            //make an account ?? use a factory maybe
-            TestAccount = new Account("");
-        }
-
         [Test]
-        public void TestAccountNoAddress()
+        public void TestAccountNoAddressThrowsException()
         {
-            Assert.AreEqual("",TestAccount.Address.Raw);
+            Assert.Throws<ArgumentException>(() => {
+                var acc  = new Account("");
+            });
+        }
+        [Test]
+        public void AccountExportToJson()
+        {
+            var json = _account.ToJsonFile("a8f8f4c1e76e09c61dfeac0e1f73cf48c58bff0de81243a20a1ff087dc5fa08a","Tester42",MusZil_Core.KDFType.PBKDF2);
+            Assert.IsTrue(json.Length > 0);
         }
     }
 }

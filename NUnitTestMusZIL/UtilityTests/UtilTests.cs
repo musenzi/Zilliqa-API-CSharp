@@ -4,6 +4,7 @@ using NUnit.Framework;
 using NUnitTestMusZIL.IntegrationTests;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,19 +17,17 @@ namespace NUnitTestMusZIL.UtilityTests
         [Test]
         public void AddressEncode()
         {
-            var address = new Address("0x551AA8653Aa7b75D9fDD75f5D4D41d0647F734E8");
-            var bech = MusBech32.Base16ToBech32Address(address.Base16);
+            var address = "0x551AA8653Aa7b75D9fDD75f5D4D41d0647F734E8"; 
+            var address2 = "0xFd154D1340e4d0c5F443eEB37891aC0e4EC25605";
+            var bech = MusBech32.Base16ToBech32Address(address);
+            var bech2 = MusBech32.Base16ToBech32Address(address2);
 
-            Assert.IsTrue(bech.StartsWith("zil"));
-
+            Assert.IsTrue(bech.StartsWith("zil") && bech2.StartsWith("zil"));
+            Console.WriteLine("Starts with zil");
             Assert.AreEqual("zil125d2sef657m4m87awh6af4qaqerlwd8gv6fglj", bech);
-        }
-        [Test]
-        public void AddressEncode2()
-        {
-            var address = new Address("0x551AA8653Aa7b75D9fDD75f5D4D41d0647F734E8");
-            address.Base16ToBech32Address();
-            Assert.AreEqual("zil125d2sef657m4m87awh6af4qaqerlwd8gv6fglj", address.Bech32.ToString());
+            Console.WriteLine($"Address1 : zil125d2sef657m4m87awh6af4qaqerlwd8gv6fglj <-> {bech}");
+            Assert.AreEqual("zil1l5256y6qungvtazra6eh3ydvpe8vy4s9rl87ec", bech2);
+            Console.WriteLine($"Address1 : zil125d2sef657m4m87awh6af4qaqerlwd8gv6fglj <->{bech}");
         }
 
         [Test]
@@ -47,8 +46,7 @@ namespace NUnitTestMusZIL.UtilityTests
             var length = encStr.Length;
             var dec = MusBech32.Decode(encStr);
             var enc = MusBech32.Encode(dec);
-            var test = enc.Substring(0, length);
-            Assert.AreEqual("zil1fs6jhg4axvj9ekscq6v7ddwxxd9tthpxl7820q", test);
+            Assert.AreEqual(encStr,enc);
         }
 
         #endregion
@@ -92,24 +90,7 @@ namespace NUnitTestMusZIL.UtilityTests
 
         #endregion
 
-        #region CryptoUtil
-
-        [Test]
-        public void KeyNotEmptyXML()
-        {
-            var info = CryptoUtil.GenerateXmlKeyInfo(true);
-
-            Assert.IsFalse(String.IsNullOrWhiteSpace(info));
-        }
-        [Test]
-        public void KeyNotEmptyJson()
-        {
-            var info = CryptoUtil.GenerateJsonKeyInfo(true);
-
-            Assert.IsFalse(String.IsNullOrWhiteSpace(info));
-        }
-
-        #endregion
+        
 
     }
 }
